@@ -1,0 +1,5 @@
+
+set DCC_STORE_PATH ~/dcc
+set LOAD_PATH ~/.epic:~/.irc:~/usr/share/epic5/script:/usr/local/share/epic5/script
+set DEFAULT_REALNAME @5l
+set NO_FAIL_DISCONNECT ON
