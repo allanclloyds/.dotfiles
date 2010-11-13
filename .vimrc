@@ -47,6 +47,7 @@ set guioptions-=T
 set et ts=2 sw=2 sts=2 bs=2 tw=0 " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
 set backupdir=~/.vim.tmp//       " Double slash makes temp file unique
 set directory=~/.vim.tmp//
+set viminfo^=!,%                 " See: http://vimdoc.sourceforge.net/htmldoc/options.html#'viminfo'
 set autoread autowrite           " Save file when changing buffers, auto reload a changed file
 set hidden                       " Allow hidden modified buffers
 set novisualbell noerrorbells    " No bells, visual or otherwise
@@ -70,22 +71,25 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
-" Required for the plugin:
-" http://vim-taglist.sourceforge.net/
+" Vim-Taglist plugin: http://vim-taglist.sourceforge.net/
 let Tlist_Inc_Winwidth = 0
 map <leader>t :TlistToggle<CR>
 
-" Required for the plugin:
-" http://sjl.bitbucket.org/gundo.vim/
+" Gundo plugin: http://sjl.bitbucket.org/gundo.vim/
 silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
 
-" Required for the plugin:
-" https://wincent.com/products/command-t
+" Command-t plugin: https://wincent.com/products/command-t
 silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
 
-" Required for the plugin:
-" http://www.vim.org/scripts/script.php?script_id=42
+" Bufexplorer plugin: http://www.vim.org/scripts/script.php?script_id=42
 silent! nmap <unique> <silent> <Leader>b :BufExplorer<CR>
+
+" Gist.vim plugin: http://www.vim.org/scripts/script.php?script_id=2423
+let g:gist_detect_filetype = 1
+silent! nmap <unique> <silent> <Leader>g :Gist -l<CR><C-w>o
+
+" Scratch.vim plugin: http://www.vim.org/scripts/script.php?script_id=664
+silent! nmap <unique> <silent> <Leader>s :Scratch<CR><C-w>o
 
 " Ruby/Coding stuff
 au BufNewFile,BufRead *.rhtml set syn=eruby
@@ -148,15 +152,12 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 " Edit another file in the same directory as the current file
 " Uses expression to extract path from current file's path
-map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
-map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
-map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>ee :e <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>es :split <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>ev :vnew <C-R>=expand("%:p:h") . '/'<CR>
 
 " Lines below from:
 " http://biodegradablegeek.com/2007/12/using-vim-as-a-complete-ruby-on-rails-ide/
-
-  " Add recently accessed projects menu (project plugin)
-  set viminfo^=!
 
   " Minibuffer Explorer Settings
   let g:miniBufExplMapWindowNavVim = 1
