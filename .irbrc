@@ -1,4 +1,5 @@
 # ~/.irbrc: Allan C. Lloyds <acl@acl.im>
+# vim: set et ff=unix ft=ruby fdm=marker ts=2 sw=2 sts=2 tw=0:
 
 begin
   # Remember:
@@ -17,6 +18,9 @@ begin
 
   IRB.conf[:BACK_TRACE_LIMIT] = 100
   IRB.conf[:AUTO_INDENT]=true
+
+  # https://github.com/oggy/looksee
+  require 'looksee/shortcuts'
 
   # Tab completion
   require 'irb/completion'
