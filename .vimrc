@@ -11,6 +11,10 @@ filetype off
 silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
 
+if isdirectory(expand("~/.vim/doc"))
+  helptags ~/.vim/doc
+endif
+
 syntax on
 filetype on
 filetype indent on
@@ -78,6 +82,10 @@ silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
 " Required for the plugin:
 " https://wincent.com/products/command-t
 silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
+
+" Required for the plugin:
+" http://www.vim.org/scripts/script.php?script_id=42
+silent! nmap <unique> <silent> <Leader>b :BufExplorer<CR>
 
 " Ruby/Coding stuff
 au BufNewFile,BufRead *.rhtml set syn=eruby
