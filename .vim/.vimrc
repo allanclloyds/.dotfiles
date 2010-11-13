@@ -71,6 +71,13 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
+set statusline=%<%F\ %r%w\[%{&ff}\]%y%{SyntasticStatuslineFlag()}
+set statusline+=\ lm:\ %{strftime(\"%Y-%m-%d\ %H:%M:%S\",getftime(expand(\"%:p\")))}\ %m%=
+set statusline+=\ ascii:0x%B\ byte:0x%O\ col:%c%V\ line:%l\,%L\ %P
+
+" Syntastic plugin: https://github.com/scrooloose/syntastic
+let g:syntastic_enable_signs=1
+
 " Vim-Taglist plugin: http://vim-taglist.sourceforge.net/
 let Tlist_Inc_Winwidth = 0
 map <leader>t :TlistToggle<CR>
