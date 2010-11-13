@@ -1,6 +1,14 @@
 " ~/.vimrc: Allan C. Lloyds <acl@acl.im>
 
 set nocompatible
+let mapleader = ","
+filetype off
+call pathogen#runtime_append_all_bundles()
+
+syntax on
+filetype on
+filetype indent on
+filetype plugin on
 
 map  <F1> <Esc>
 imap <F1> <Esc>
@@ -29,7 +37,8 @@ set guioptions-=T
 set et ts=2 sw=2 sts=2 bs=2 tw=0 " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidh
 set backupdir=~/.vim.tmp//       " Double slash makes temp file unique
 set directory=~/.vim.tmp//
-set autoread autowrite           " Save file when changing buffers, auto reload a changed file"
+set autoread autowrite           " Save file when changing buffers, auto reload a changed file
+set hidden                       " Allow hidden modified buffers
 set novisualbell noerrorbells    " No bells, visual or otherwise
 set laststatus=2                 " Always show status line
 set showmatch incsearch hlsearch " Show matching brackets, start searching as you type, highlight searches
@@ -47,11 +56,6 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
-syntax on
-filetype on
-filetype indent on
-filetype plugin on
-
 set tags=./tags;                 " Ctags for jumping around source files
 set grepprg=ack-grep             " A better grep for use inside vim
 
@@ -59,6 +63,15 @@ set grepprg=ack-grep             " A better grep for use inside vim
 " http://vim-taglist.sourceforge.net/
 let Tlist_Inc_Winwidth = 0
 map <leader>t :TlistToggle<CR>
+
+" Required for the plugin ---------
+" http://sjl.bitbucket.org/gundo.vim/
+"nnoremap <F5> :GundoToggle<CR>
+silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
+
+" Required for the plugin ---------
+" https://wincent.com/products/command-t
+silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
 
 " Ruby/Coding stuff
 au BufNewFile,BufRead *.rhtml set syn=eruby
