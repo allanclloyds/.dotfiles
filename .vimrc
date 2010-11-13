@@ -1,9 +1,15 @@
 " ~/.vimrc: Allan C. Lloyds <acl@acl.im>
+" vim: set et ff=unix ft=vim fdm=marker ts=2 sw=2 sts=2 tw=0: 
 
 set nocompatible
 let mapleader = ","
+
+" Pathogen plugin for managing Vim plugins
+" http://www.vim.org/scripts/script.php?script_id=2332
+" https://github.com/tpope/vim-pathogen
 filetype off
-call pathogen#runtime_append_all_bundles()
+silent! call pathogen#runtime_append_all_bundles()
+silent! call pathogen#helptags()
 
 syntax on
 filetype on
@@ -34,7 +40,7 @@ colorscheme desert256            " Important: set colorscheme after above
 highlight PmenuSel ctermfg=black
 
 set guioptions-=T
-set et ts=2 sw=2 sts=2 bs=2 tw=0 " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidh
+set et ts=2 sw=2 sts=2 bs=2 tw=0 " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
 set backupdir=~/.vim.tmp//       " Double slash makes temp file unique
 set directory=~/.vim.tmp//
 set autoread autowrite           " Save file when changing buffers, auto reload a changed file
@@ -46,6 +52,10 @@ set number ruler showmode        " Show line numbers, ruler, current mode
 set so=7 wmh=0                   " Keep 7 lines visible when scrolling, allow window to be 0 lines high
 set showcmd                      " Show current command
 set nostartofline                " Do not jump to first character with page commands
+set wildmenu                     " Enhanced command line completion
+set wildmode=list:longest        " Complete files like a shell
+set tags=./tags;                 " Ctags for jumping around source files
+set grepprg=ack-grep             " A better grep for use inside vim
 
 " Console title ------------------
 set title
@@ -56,20 +66,16 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
-set tags=./tags;                 " Ctags for jumping around source files
-set grepprg=ack-grep             " A better grep for use inside vim
-
-" Required for the plugin --------
+" Required for the plugin:
 " http://vim-taglist.sourceforge.net/
 let Tlist_Inc_Winwidth = 0
 map <leader>t :TlistToggle<CR>
 
-" Required for the plugin ---------
+" Required for the plugin:
 " http://sjl.bitbucket.org/gundo.vim/
-"nnoremap <F5> :GundoToggle<CR>
 silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
 
-" Required for the plugin ---------
+" Required for the plugin:
 " https://wincent.com/products/command-t
 silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
 
@@ -81,17 +87,37 @@ au BufNewFile,BufRead *.rjs set syn=ruby
 au BufWinLeave *.rb mkview
 au BufWinEnter *.rb silent loadview
 
-" Bind control-l to hashrocket
-imap <C-l> <Space>=><Space>
-
-" Convert word into ruby symbol
-imap <C-k> <C-o>b:<Esc>Ea
-nmap <C-k> lbi:<Esc>E
-
 " Folding
 set foldmethod=marker
 map <TAB> za
 set fillchars=fold:\ " note the whitespace after
+
+" Tweaks from:
+" http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
+
+  " Bind control-l to hashrocket
+  imap <C-l> <Space>=><Space>
+
+  " Convert word into ruby symbol
+  imap <C-k> <C-o>b:<Esc>Ea
+  nmap <C-k> lbi:<Esc>E
+
+" Tweaks from:
+" https://github.com/airblade/dotvim/blob/master/vimrc
+
+  " Very magic regexes
+  nnoremap / /\v
+  vnoremap / /\v
+
+  " Make Y consistent with D and C (instead of yy)
+  noremap Y y$
+
+  " Visually select the text that was most recently edited/pasted.
+  nmap gV `[v`]
+
+  " Make * and # work with visual selection.
+  vnoremap <silent> * :call VisualSearch('f')<CR>
+  vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " Places the cursor in the last place that it was in the last file
 if has("autocmd")
@@ -103,6 +129,7 @@ endif
 
 " Append modeline after last line in buffer.
 " Use substitute() (not printf()) to handle '%%s' modeline in LaTeX files.
+" http://vim.wikia.com/wiki/Modeline_magic
 function! AppendModeline()
   let save_cursor = getpos('.')
   let append = ' vim: set et ff=unix ft='.&filetype.' fdm=marker ts=2 sw=2 sts=2 tw=0: '
@@ -117,21 +144,21 @@ map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
 
-" Lines below from ---------------
+" Lines below from:
 " http://biodegradablegeek.com/2007/12/using-vim-as-a-complete-ruby-on-rails-ide/
 
-" Add recently accessed projects menu (project plugin)
-set viminfo^=!
+  " Add recently accessed projects menu (project plugin)
+  set viminfo^=!
 
-" Minibuffer Explorer Settings
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
+  " Minibuffer Explorer Settings
+  let g:miniBufExplMapWindowNavVim = 1
+  let g:miniBufExplMapWindowNavArrows = 1
+  let g:miniBufExplMapCTabSwitchBufs = 1
+  let g:miniBufExplModSelTarget = 1
 
-" alt+n or alt+p to navigate between entries in QuickFix
-map <silent> <m-p> :cp <cr>
-map <silent> <m-n> :cn <cr>
+  " alt+n or alt+p to navigate between entries in QuickFix
+  map <silent> <m-p> :cp <cr>
+  map <silent> <m-n> :cn <cr>
 
-" Change which file opens after executing :Rails command
-let g:rails_default_file='config/database.yml'
+  " Change which file opens after executing :Rails command
+  let g:rails_default_file='config/database.yml'
