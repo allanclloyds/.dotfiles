@@ -43,3 +43,27 @@
 [submodule ".vim/bundle/vim-speeddating"]
 	path = .vim/bundle/vim-speeddating
 	url = https://github.com/tpope/vim-speeddating.git
+[submodule ".vim/bundle/gundo.vim"]
+	path = .vim/bundle/gundo.vim
+	url = https://github.com/sjl/gundo.vim.git
+[submodule ".vim/bundle/zencoding-vim"]
+	path = .vim/bundle/zencoding-vim
+	url = https://github.com/mattn/zencoding-vim.git
+[submodule ".vim/bundle/vim-endwise"]
+	path = .vim/bundle/vim-endwise
+	url = https://github.com/tpope/vim-endwise.git
+[submodule ".vim/bundle/vim-unimpaired"]
+	path = .vim/bundle/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule ".vim/bundle/vim-abolish"]
+	path = .vim/bundle/vim-abolish
+	url = https://github.com/tpope/vim-abolish.git
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/vim-liquid"]
+	path = .vim/bundle/vim-liquid
+	url = https://github.com/tpope/vim-liquid.git
+[submodule ".vim/bundle/vim-afterimage"]
+	path = .vim/bundle/vim-afterimage
+	url = https://github.com/tpope/vim-afterimage.git
