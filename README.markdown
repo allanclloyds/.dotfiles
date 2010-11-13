@@ -19,7 +19,7 @@ uninstall mechanism:
 
     :RmVimball <vimballname>
 
-See http://www.vim.org/scripts/script.php?script_id=1502 for more details.
+See `http://www.vim.org/scripts/script.php?script_id=1502` for more details.
 
 My ~/.vim/.VimballRecord is under version control, so anything here
 installed via a vimball can be removed with :RmVimball from Vim, otherwise
@@ -30,9 +30,9 @@ There are some projects to assist with installing/uninstalling plugins
 that you might want to check out:
 
 - vim-addon-manager:
-  http://www.vim.org/scripts/script.php?script_id=2905
-- update_bundles:
-  http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen
+  `http://www.vim.org/scripts/script.php?script_id=2905`
+- update bundles:
+  `http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen`
 
 If you only want to checkout the ~/.vim directory you can use git sparse
 checkouts like so:
@@ -43,4 +43,4 @@ checkouts like so:
     echo .vim/ > .git/info/sparse-checkout
     git read-tree -m -u HEAD
 
-vim: set et ff=unix ft=txt fdm=marker ts=2 sw=2 sts=2 tw=74:
+vim: set et ff=unix ft=markdown fdm=marker ts=2 sw=2 sts=2 tw=74:
