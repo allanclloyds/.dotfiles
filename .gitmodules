@@ -73,3 +73,9 @@
 [submodule ".vim/snippets"]
 	path = .vim/snippets
 	url = https://github.com/scrooloose/snipmate-snippets.git
+[submodule ".vim/bundle/csapprox"]
+	path = .vim/bundle/csapprox
+	url = https://github.com/godlygeek/csapprox.git
+[submodule ".vim/bundle/vim-pastie"]
+	path = .vim/bundle/vim-pastie
+	url = https://github.com/tpope/vim-pastie.git
