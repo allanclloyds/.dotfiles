@@ -4,7 +4,15 @@
 set nocompatible
 let mapleader = ","
 
-" Pathogen plugin for managing Vim plugins
+" Reload .vimrc on change
+" http://vim.wikia.com/wiki/Change_vimrc_with_auto_reload
+if has ('win')
+  "autocmd! bufwritepost _vimrc source %
+else
+  "autocmd! bufwritepost .vimrc source %
+endif
+
+" Pathogen plugin for managing Vim plugins:
 " http://www.vim.org/scripts/script.php?script_id=2332
 " https://github.com/tpope/vim-pathogen
 filetype off
@@ -13,6 +21,8 @@ silent! call pathogen#helptags()
 
 if isdirectory(expand("~/.vim/doc"))
   helptags ~/.vim/doc
+elseif isdirectory(expand("~/vimfiles/doc"))
+  helptags ~/vimfiles/doc
 endif
 
 syntax on
@@ -20,50 +30,49 @@ filetype on
 filetype indent on
 filetype plugin on
 
-map  <F1> <Esc>
-imap <F1> <Esc>
-map  <F9> <C-o>
-nmap <F9> <C-o>
-
-set t_Co=256                     " Enable 256 colors
+set t_Co=256                      " Enable 256 colors
 set t_AB=[48;5;%dm
 set t_AF=[38;5;%dm
 
 set list
-set lcs=tab:>-                   " Show tabs
-set lcs+=trail:·                 " Show trailing spaces
-set lcs+=eol:$                   " Show end of lines
+set lcs=tab:>-                    " Show tabs
+set lcs+=trail:·                  " Show trailing spaces
+set lcs+=eol:$                    " Show end of lines
 
-" Highlight trailing whitespace or ANY tabs (tabs suck!)
-highlight ExtraWhitespace ctermbg=darkgreen ctermfg=black
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen ctermfg=black
-match ExtraWhitespace /\t\|\>\+\s\+$/
-autocmd ColorScheme * highlight NonText ctermbg=black ctermfg=236
+" Highlight trailing whitespace or ANY tabs
+highlight   ExtraWhitespace ctermbg=darkgreen ctermfg=black
+autocmd     ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen ctermfg=black
+match       ExtraWhitespace /\t\|\>\+\s\+$/
+autocmd     ColorScheme * highlight NonText ctermbg=black ctermfg=236
 
-colorscheme desert256            " Important: set colorscheme after above
-highlight PmenuSel ctermfg=black
+" Set colorscheme after above but before the rest
+colorscheme desert256
 
-set guioptions-=T
-set et ts=2 sw=2 sts=2 bs=2 tw=0 " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
-set backupdir=~/.vim.tmp//       " Double slash makes temp file unique
+" Popupmenu selected line, cursor line highlight
+highlight   PmenuSel ctermfg=black
+highlight   clear Cursorline
+highlight   CursorLine ctermbg=234  guibg=233
+
+set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
+set formatoptions+=m              " Add multibyte support
+set backupdir=~/.vim.tmp//        " Double slash makes temp file unique
 set directory=~/.vim.tmp//
-set viminfo^=!,%                 " See: http://vimdoc.sourceforge.net/htmldoc/options.html#'viminfo'
-set autoread autowrite           " Save file when changing buffers, auto reload a changed file
-set hidden                       " Allow hidden modified buffers
-set novisualbell noerrorbells    " No bells, visual or otherwise
-set laststatus=2                 " Always show status line
-set showmatch incsearch hlsearch " Show matching brackets, start searching as you type, highlight searches
-set number ruler showmode        " Show line numbers, ruler, current mode
-set so=7 wmh=0                   " Keep 7 lines visible when scrolling, allow window to be 0 lines high
-set showcmd                      " Show current command
-set nostartofline                " Do not jump to first character with page commands
-set wildmenu                     " Enhanced command line completion
-set wildmode=list:longest        " Complete files like a shell
-set tags=./tags;                 " Ctags for jumping around source files
-set grepprg=ack-grep             " A better grep for use inside vim
+set viminfo^=!,%                  " See: http://vimdoc.sourceforge.net/htmldoc/options.html#'viminfo'
+set hidden autoread autowrite     " Allow hidden modified buffs, save when changing buffs, reload changed file
+set novisualbell noerrorbells     " No bells, visual or otherwise
+set showmatch                     " Show matching brackets
+set wrapscan incsearch hlsearch   " Wrap search to start of file, search as you type, highlight searches
+set number ruler showmode showcmd " Show line numbers, ruler, current mode, current command
+set so=7 wmh=0                    " Keep 7 lines visible when scrolling, allow window to be 0 lines high
+set nostartofline                 " Do not jump to first character with page commands
+set wildmenu                      " Enhanced command line completion
+set wildmode=list:longest         " Complete files like a shell
+set tags=./tags;                  " Ctags for jumping around source files
+set grepprg=ack-grep              " A better grep for use inside vim
+set foldmethod=marker             " Use predefined markers for folds
+set fillchars=fold:\              " note the whitespace after
 
-" Console title ------------------
-set title
+set title                         " Boolean: set title of terminal
 set titlestring=vim:\ %F
 
 if $TERM == 'screen-256color-bce'
@@ -71,9 +80,29 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
+set laststatus=2                  " Always show status line
+
 set statusline=%<%F\ %r%w\[%{&ff}\]%y%{SyntasticStatuslineFlag()}
 set statusline+=\ lm:\ %{strftime(\"%Y-%m-%d\ %H:%M:%S\",getftime(expand(\"%:p\")))}\ %m%=
 set statusline+=\ ascii:0x%B\ byte:0x%O\ col:%c%V\ line:%l\,%L\ %P
+
+" Speeddating plugin:
+" http://www.vim.org/scripts/script.php?script_id=2120
+" https://github.com/tpope/vim-speeddating
+"
+" Some other mappings here as well: On my netbook <Esc> is tiny, and right next to <F1>
+" <C-a> is special in both Windows + GNU Screen, so don't use that for incrementing and
+" <C-i> and <Tab> share the same mapping, so this will allow <Tab> to increment.
+map      <F1>  <Esc>
+imap     <F1>  <Esc>
+noremap  <F8>  <C-o>
+noremap  <F9>  <C-i>
+nmap     <C-i> <Plug>SpeedDatingUp
+nmap     <C-x> <Plug>SpeedDatingDown
+xmap     <C-i> <Plug>SpeedDatingUp
+xmap     <C-x> <Plug>SpeedDatingDown
+nmap    d<C-i> <Plug>SpeedDatingNowUTC
+nmap    d<C-x> <Plug>SpeedDatingNowLocal
 
 " Syntastic plugin: https://github.com/scrooloose/syntastic
 let g:syntastic_enable_signs=1
@@ -106,10 +135,15 @@ au BufNewFile,BufRead *.rjs set syn=ruby
 au BufWinLeave *.rb mkview
 au BufWinEnter *.rb silent loadview
 
-" Folding
-set foldmethod=marker
-map <TAB> za
-set fillchars=fold:\ " note the whitespace after
+" Tweaks from:
+" http://nanabit.net/blog/2007/11/03/vim-cursorline/
+
+  " Display cursorline only in active window
+  augroup cch
+    autocmd! cch
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter,BufRead * set cursorline
+  augroup END
 
 " Tweaks from:
 " http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
@@ -134,9 +168,27 @@ set fillchars=fold:\ " note the whitespace after
   " Visually select the text that was most recently edited/pasted.
   nmap gV `[v`]
 
-  " Make * and # work with visual selection.
-  vnoremap <silent> * :call VisualSearch('f')<CR>
-  vnoremap <silent> # :call VisualSearch('b')<CR>
+" Highlight and mark current line or column
+" http://vim.wikia.com/wiki/Highlight_current_line
+nnoremap <silent> <Leader>hl ml:execute 'match Search /\%'.line('.').'l/'<CR>
+nnoremap <silent> <Leader>hc :execute 'match Search /\%'.virtcol('.').'v/'<CR>
+
+" Clear current line/search highlight
+nnoremap <silent> <Leader>hh :match
+nnoremap \ :noh<CR>
+
+" Search for selected text, forwards or backwards
+" http://vim.wikia.com/wiki/Search_for_visually_selected_text
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " Places the cursor in the last place that it was in the last file
 if has("autocmd")
