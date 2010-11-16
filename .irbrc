@@ -19,9 +19,6 @@ begin
   IRB.conf[:BACK_TRACE_LIMIT] = 100
   IRB.conf[:AUTO_INDENT]=true
 
-  # https://github.com/oggy/looksee
-  require 'looksee/shortcuts'
-
   # Tab completion
   require 'irb/completion'
 
@@ -40,6 +37,8 @@ begin
   Wirble.init
   Wirble.colorize
 
+  # https://github.com/oggy/looksee
+  require 'looksee/shortcuts'
 rescue LoadError => err
   warn "Problem in ~/.irbrc: #{err}"
 end
