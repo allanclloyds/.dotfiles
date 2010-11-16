@@ -1,6 +1,17 @@
 " ~/.vimrc: Allan C. Lloyds <acl@acl.im>
 " vim: set et ff=unix ft=vim fdm=marker ts=2 sw=2 sts=2 tw=0: 
 
+" Some vim screencasts/resources:
+" http://peepcode.com/products/smash-into-vim-i
+" http://peepcode.com/products/smash-into-vim-ii
+" http://www.codeulatescreencasts.com/products/vim-for-rails-developers
+" http://vimcasts.org/episodes/archive
+"
+" http://vim.wikia.com/wiki/Vim_Tips_Wiki
+" http://vimdoc.sourceforge.net/htmldoc/vimfaq.html
+" http://vimdoc.sourceforge.net/htmldoc/usr_toc.html
+" http://www.oualline.com/vim-cook.html
+
 set nocompatible
 let mapleader = ","
 
