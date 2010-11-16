@@ -1,3 +1,9 @@
+# ~/.bashrc: Allan C. Lloyds <acl@acl.im>
+# vim: set et ff=unix ft=sh fdm=marker ts=2 sw=2 sts=2 tw=0: 
+# see ~/.profile for ksh/bash/zsh startup file loading order
+
+# Nothing exciting here as I mainly use zsh. This is the default .bashrc
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples

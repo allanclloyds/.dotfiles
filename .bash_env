@@ -1,0 +1,6 @@
+# ~/.bash_env: Allan C. Lloyds <acl@acl.im>
+# vim: set et ff=unix ft=sh fdm=marker ts=2 sw=2 sts=2 tw=0: 
+# see ~/.profile for ksh/bash/zsh startup file loading order
+
+# this file is sourced by non-interactive bash scripts assuming
+# BASH_ENV hasn't been redefined somewhere.

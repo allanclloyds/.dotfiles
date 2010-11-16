@@ -1,35 +1,8 @@
 # ~/.zshrc: Allan C. Lloyds <acl@acl.im>
+# vim: set et ff=unix ft=zsh fdm=marker ts=2 sw=2 sts=2 tw=0: 
+# see ~/.profile for ksh/bash/zsh startup file loading order
 
-# setup paths
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin
-HOME_PATH=$HOME/bin
-if   [[ -d $HOME/.gem/ruby/1.9/bin ]] ; then
-  HOME_PATH=$HOME_PATH:$HOME/.gem/ruby/1.9/bin
-elif [[ -d $HOME/.gem/ruby/1.8/bin ]] ; then
-  HOME_PATH=$HOME_PATH:$HOME/.gem/ruby/1.8/bin
-fi
-PATH=$HOME_PATH:$PATH
-if [[ -d /usr/X11R6/bin    ]] ; then PATH=$PATH:/usr/X11R6/bin    ; fi # fhs
-if [[ -d /opt/bin          ]] ; then PATH=$PATH:/opt/bin          ; fi # fhs
-if [[ -d /opt/sbin         ]] ; then PATH=$PATH:/opt/sbin         ; fi # fhs
-if [[ -d /opt/gnome/bin    ]] ; then PATH=$PATH:/opt/gnome/bin    ; fi # enu
-if [[ -d /opt/kde3/bin     ]] ; then PATH=$PATH:/opt/kde3/bin     ; fi # enu
-if [[ -d /usr/lib/mit/bin  ]] ; then PATH=$PATH:/usr/lib/mit/bin  ; fi # enu
-if [[ -d /usr/lib/mit/sbin ]] ; then PATH=$PATH:/usr/lib/mit/sbin ; fi # enu
-
-if [ `uname -s` = "OpenBSD" ]; then
-  PKG_PATH=ftp://ftp.plig.net/pub/OpenBSD/`uname -r`/packages/`arch -s`
-  export PKG_PATH
-fi
-
-export PATH HOME TERM
-umask  0027
-limit  core 0
-
-# disable ctrl-s flow control madness
-stty ixany
-stty ixoff -ixon
-
+limit    core 0
 unsetopt flow_control
 unsetopt beep
 
@@ -63,7 +36,7 @@ setopt histignoredups   # ignore duplicate history entries
 setopt prompt_subst     # expand functions in the prompt
 setopt check_jobs       # report job status before exit, 2nd exit will succeed
 setopt notify           # notify immediately on job status change
-setopt mail_warn        # print a warning message if a mail file has been accessed since the shell last checked
+setopt mail_warn        # warn if mail file has been accessed since shell last checked
 setopt print_exit_value # show exit code when > 0
 setopt autocd           # cd by entering directory as command
 bindkey -v              # vi editing mode
