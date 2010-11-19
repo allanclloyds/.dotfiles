@@ -66,17 +66,17 @@ case ${TERM} in
 esac
 
 # setup aliases, suffix aliases and default programs
-if [ -e "$HOME/.aliases" ]; then
+if [[ -e "$HOME/.aliases" ]]; then
   source "$HOME/.aliases"
 fi
 
 ls --color >/dev/null 2>&1
-if [ "$?" -eq "0" ]; then
+if [[ "$?" -eq "0" ]]; then
   alias ls="ls --color"
 fi
 alias ll="ls -lFah"
 
-if [ -x ~/bin/vim ]; then
+if [[ -x ~/bin/vim ]]; then
   export EDITOR=~/bin/vim
 else
   export EDITOR=/usr/bin/vi
@@ -86,7 +86,7 @@ for suffix in "rb" "erb" "haml" "md" "markdown" "textile"; do
   alias -s ${suffix}=${EDITOR}
 done
 
-if [ `which w3m` != 'w3m not found' ]; then
+if [[ `which w3m` != 'w3m not found' ]]; then
   export PAGER=`which w3m`
   export BROWSER=${PAGER}
   for suffix in "html" "htm" "uk" "com" "net" "org" "edu"; do

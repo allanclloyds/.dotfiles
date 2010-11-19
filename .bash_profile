@@ -3,6 +3,6 @@
 # see ~/.profile for ksh/bash/zsh startup file loading order
 
 # paths, umask are setup in ~/.profile
-if [ -f ~/.profile ]; then
+if [[ -f ~/.profile ]]; then
   . ~/.profile
 fi

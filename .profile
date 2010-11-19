@@ -90,19 +90,19 @@
 # setup paths
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin
 HOME_PATH=$HOME/bin
-if   [[ -d $HOME/.gem/ruby/1.9/bin ]] ; then
+if   [ -d "${HOME}/.gem/ruby/1.9/bin" ] ; then
   HOME_PATH=$HOME_PATH:$HOME/.gem/ruby/1.9/bin
-elif [[ -d $HOME/.gem/ruby/1.8/bin ]] ; then
+elif [ -d "${HOME}/.gem/ruby/1.8/bin" ] ; then
   HOME_PATH=$HOME_PATH:$HOME/.gem/ruby/1.8/bin
 fi
 PATH=$HOME_PATH:$PATH
-if [[ -d /usr/X11R6/bin    ]] ; then PATH=$PATH:/usr/X11R6/bin    ; fi # fhs
-if [[ -d /opt/bin          ]] ; then PATH=$PATH:/opt/bin          ; fi # fhs
-if [[ -d /opt/sbin         ]] ; then PATH=$PATH:/opt/sbin         ; fi # fhs
-if [[ -d /opt/gnome/bin    ]] ; then PATH=$PATH:/opt/gnome/bin    ; fi # enu
-if [[ -d /opt/kde3/bin     ]] ; then PATH=$PATH:/opt/kde3/bin     ; fi # enu
-if [[ -d /usr/lib/mit/bin  ]] ; then PATH=$PATH:/usr/lib/mit/bin  ; fi # enu
-if [[ -d /usr/lib/mit/sbin ]] ; then PATH=$PATH:/usr/lib/mit/sbin ; fi # enu
+if [ -d /usr/X11R6/bin    ] ; then PATH=$PATH:/usr/X11R6/bin    ; fi # fhs
+if [ -d /opt/bin          ] ; then PATH=$PATH:/opt/bin          ; fi # fhs
+if [ -d /opt/sbin         ] ; then PATH=$PATH:/opt/sbin         ; fi # fhs
+if [ -d /opt/gnome/bin    ] ; then PATH=$PATH:/opt/gnome/bin    ; fi # enu
+if [ -d /opt/kde3/bin     ] ; then PATH=$PATH:/opt/kde3/bin     ; fi # enu
+if [ -d /usr/lib/mit/bin  ] ; then PATH=$PATH:/usr/lib/mit/bin  ; fi # enu
+if [ -d /usr/lib/mit/sbin ] ; then PATH=$PATH:/usr/lib/mit/sbin ; fi # enu
 
 if [ `uname -s` = "OpenBSD" ]; then
   PKG_PATH=ftp://ftp.plig.net/pub/OpenBSD/`uname -r`/packages/`arch -s`
