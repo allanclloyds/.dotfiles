@@ -48,7 +48,7 @@ set t_AF=[38;5;%dm
 set list
 set lcs=tab:>-                    " Show tabs
 set lcs+=trail:·                  " Show trailing spaces
-set lcs+=eol:$                    " Show end of lines
+set lcs+=eol:¶                    " Show end of lines
 
 " Highlight trailing whitespace or ANY tabs
 highlight   ExtraWhitespace ctermbg=darkgreen ctermfg=black
@@ -91,11 +91,18 @@ if $TERM == 'screen-256color-bce'
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
+au BufNewFile,BufRead *.gz let b:gzflag = 1
+
+function VarExists(var, val)
+  if exists(a:var) | return a:val | else | return '' | endif
+endfunction
+
 set laststatus=2                  " Always show status line
 
-set statusline=%<%F\ %r%w\[%{&ff}\]%y%{SyntasticStatuslineFlag()}
-set statusline+=\ lm:\ %{strftime(\"%Y-%m-%d\ %H:%M:%S\",getftime(expand(\"%:p\")))}\ %m%=
-set statusline+=\ ascii:0x%B\ byte:0x%O\ col:%c%V\ line:%l\,%L\ %P
+set statusline=%-20.(%-5.L\\%5.l,%3.c,%3.v\ %)\|
+set statusline+=\ l:%p%%\ w:%P\ o:0x%O\ b:0x%B\ %=
+set statusline+=\ %F\ %r%w%{VarExists('b:gzflag','\ [gz]')}\[%{&ff}\]%y%{SyntasticStatuslineFlag()}%m
+set statusline+=\ %<%{strftime(\"%Y-%m-%d\ %a\ %H:%M:%S\",getftime(expand(\"%:p\")))}
 
 " Speeddating plugin:
 " http://www.vim.org/scripts/script.php?script_id=2120
