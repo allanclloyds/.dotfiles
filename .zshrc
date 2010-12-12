@@ -53,7 +53,8 @@ export HISTSIZE=1000
 export SAVEHIST=1000
 
 # prompt and terminal title
-export PS1='%{$fg_bold[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %{$fg_bold[blue]%}(${${RUBY_VERSION:-system}#ruby-})%{${reset_color}%} %# '
+export PS1='%{$fg_bold[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %# '
+export RPROMPT='%{$fg_bold[blue]%}(${${RUBY_VERSION:-system}#ruby-})%{${reset_color}%}'
 case ${TERM} in
   screen*)
     precmd  () { print -Pn "\033k\033\134\033kzsh\033\134\e]0;${STY#*.}\a" }
