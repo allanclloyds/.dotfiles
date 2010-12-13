@@ -1,16 +1,203 @@
 # ~/.screenrc: Allan C. Lloyds <acl@acl.im>
+# String escapes reference at end of file
 
 termcapinfo xterm*|Eterm|mlterm "hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-defbce      "on"
-attrcolor   b ".I"
-term        screen-256color
 
-caption     always
-hardstatus  off
-vbell       off
+defbce      "on"            # http://aperiodic.net/screen/commands:bce
+attrcolor   b ".I"          # http://aperiodic.net/screen/commands:attrcolor
+term        screen-256color # http://aperiodic.net/screen/commands:term
 
-backtick    1 0 0 whoami
+caption     always          # always display window list
+hardstatus  alwayslastline  # set to off to put hardstatus in Xterm title
+vbell       off             # beep, don't flash
 
-hardstatus  string "%1`@%h (%n*%f%?(%u)%? %t)"
-caption     string '%{= ky}%1`@%h %017=%=%{= ky}%?%-Lw%?%45L>%{=u ky}%n*%f%?(%u)%? %t%{= ky}%?%+Lw%?%{= kk}.%{ky}%=%-024= %Y-%m-%d %D %{= yk}%0c%{= ky}:%s'
+backtick    1 0 0 whoami    # store results of `whoami` in %1`
+
+# The caption/hardstatus look something like this in a narrow (80 column)
+# terminal when running Zsh in windows 0 and 2 and vim editing this file
+# in window 1 (a wider terminal will also show the system load):
+#
+#                   0$ ~  1*$ ~/.dotfiles/.screenrc  2-$ /tmp
+# allan@x:~/.dotfiles/.screenrc (1*$, 1.9.2-p0, master*) 2010-12-12 Sun 23:35:06
+
+# Truncation/padding in screen seems to be a bit of a black art, right up there
+# with Sendmail configuration, Apache mod_rewrite and eating ice cream without
+# giving yourself a headache.
+
+# Here the window list is centered: %45L> means "keep me (>) at the 45% mark;
+# truncate the text between %01= and %-01=, and mark the truncated text with an
+# ellipsis (...)". Yes, I am anthropomorphizing the substitutions. You'll notice
+# that %45L> appears just before the current window; exactly which part of the
+# window list gets truncated depends on which window is selected.
+
+# Incidently, %01= and %-01= mean "keep me (=) at exactly one character from the
+# left or right of the screen respectively".  Without them, screen doesn't seem
+# to truncate per se, but rather just spill stuff off the edge.
+
+# The two %= mean, "substitute us with an equal amount of spaces to center the
+# text between us on the screen".
+
+# The two periods are there to force the color to reset, otherwise you seem to
+# get a white bar on the left or underlined space on the right (if the right-hand
+# window is selected). I presume this is due to colors and attributes not
+# actually changing until screen hits a printable character.
+
+# %-Lw shows the windows up to the current one and %+Lw the windows after the
+# current one. Content between %?...%x...%? will not display if '%x' is empty,
+# and finally, %{} sets the colors and text attributes (see table at end).
+
+#                      .force color reset  .keep at 45% from left     .current window title
+#                      |     .position 1 char from left    .flags     | .restore previous colors
+#                      |     |             |               |          | |
+caption string '%{= kk}.%{kK}%01=%=%?%-Lw%?%45L>%{=u kK}%n*%f%?(%u)%? %t%{-}%?%+Lw%?%{-}.%=%-01='
+#               |                |   |                  |       |             |
+#               |                `fill with spaces      |       `other users  |
+#               `black bg, black fg  `windows to left   `current window no.   `windows to right
+
+# Note: when reading the below, keep in mind the difference between the
+# hardstatus bar displayed at the bottom of the screen, and the window
+# 'hardstatus' (%h) which is a string, like the window 'title' (%t), which can be
+# set by escape sequences from each window individually. Screen uses the 'title'
+# to identify the window in the window list, what you do with the 'hardstatus' is
+# up to you it seems.
+
+# In my case, a precmd in my ~/.zshrc sets the 'title' to the current working
+# directory (cwd) and the 'hardstatus' to the current ruby version + git branch
+# each time the prompt is displayed. When I run a command from Zsh, a preexec
+# sets the 'title' to the name of that command instead, and when I'm editing a
+# file with Vim, Vim will set it to the full path of that file.
+
+# %1` substitutes the contents of the first backtick command (whoami).
+
+# So: %1`@%H:%t gives me the SCP path of my current directory or current file
+# which I can copy into other terminals.
+
+# See http://www.nesono.com/node/322 for another way to display the git branch in
+# screen. I didnt use this method because, as far as I could see, it wouldn't
+# work very well if you had multiple windows open in different repositories, nor
+# did I like the idea of git status running every few seconds. The downside to
+# my approach is git status runs every time the prompt refreshes; it's fast
+# enough for me, but that extra split second delay might annoy you.
+
+# Having all this information in the hardstatus means I can keep my Zsh prompt
+# bare bones. Also note that when not running inside screen, Zsh sets the Xterm
+# title to something sensible (user@tty.host (command)), so I don't need to worry
+# about setting the Xterm title from inside screen as it will have already been
+# set before I run the screen command. (Ab)using the hardstatus to set the Xterm
+# title would therefore be a bit of a waste.
+
+# With the truncation/padding, in this case %-024= means keep me (=) at
+# exactly 24 characters from the right of the screen. If you need to truncate,
+# truncate the string to the left. The %= fills the hardstatus with spaces until
+# the text to its right is pushed along as far as it can go. The result is:
+# first the empty padding is truncated, then the system load, then the window
+# hardstatus, then the SCP path. The time will always be displayed, and stays
+# aligned on the right with the last modified time displayed in Vim, and the
+# timestamp on the Zsh prompt.
+
+#                         .whoami  .window title  .other users     .system load
+#                         |   .hostname  .window no.      .window hardstatus      date, day and time
+#                         |   |    |     |        |       |        |         ////////////////////////////
+hardstatus string "%{= ky}%1`@%H%?:%t%? (%n*%f%?, %u%?%?, %h%?) %=[%l]%-024= %Y-%m-%d %D %{yk}%0c%{-}:%s"
+#                  |                        |                         |
+#                  `black bg, yellow fg     `window flags             `position 24 chars from right
+
+# I'm probably missing a trick or two, and idealy I'd like the truncated text
+# in the hardstatus to show a ellipsis, but there comes a point when you realize
+# that life is too short to spend a non-trivial percentage of it trying to get
+# inside the head of the sadist who came up with this system. Whoever and
+# whereever you are, you bastard, I salute you.
+
+# ## http://www.gnu.org/software/screen/manual/html_node/String-Escapes.html ##
+# %  the escape character itself                                              #
+# a  either 'am' or 'pm'                                                      #
+# A  either 'AM' or 'PM'                                                      #
+# c  current time HH:MM in 24h format                                         #
+# C  current time HH:MM in 12h format                                         #
+# d  day number                                                               #
+# D  weekday name                                                             #
+# f  flags of the window (see Window Flags)                                   #
+# F  sets %? to true if the window has the focus                              #
+# h  hardstatus of the window                                                 #
+# H  hostname of the system                                                   #
+# l  current load of the system                                               #
+# m  month number                                                             #
+# M  month name                                                               #
+# n  window number                                                            #
+# s  seconds                                                                  #
+# t  window title                                                             #
+# u  all other users on this window                                           #
+# w  all window numbers and names. With '-' qualifier: up to the current      #
+#    window; with '+' qualifier: starting with the window after the current   #
+#    one.                                                                     #
+# W  all window numbers and names except the current one                      #
+# y  last two digits of the year number                                       #
+# Y  full year number                                                         #
+# ?  the part to the next '%?' is displayed only if a '%' escape inside the   #
+#    part expands to a non empty string                                       #
+# :  else part of '%?'                                                        #
+# =  pad the string to the display's width (like TeX's hfill). If a           #
+#    number is specified, pad to the percentage of the window's width. A '0'  #
+#    qualifier tells screen to treat the number as absolute position. You can #
+#    specify to pad relative to the last absolute pad position by adding a    #
+#    '+' qualifier or to pad relative to the right margin by using '-'. The   #
+#    padding truncates the string if the specified position lies before the   #
+#    current position. Add the 'L' qualifier to change this.                  #
+# <  same as '%=' but just do truncation, do not fill with spaces             #
+# >  mark the current text position for the next truncation. When screen      #
+#    needs to do truncation, it tries to do it in a way that the marked       #
+#    position gets moved to the specified percentage of the output area. (The #
+#    area starts from the last absolute pad position and ends with the        #
+#    position specified by the truncation operator.) The 'L' qualifier tells  #
+#    screen to mark the truncated parts with '.'.                             #
+# {  attribute/color modifier string terminated by the next '}'               #
+# `  Substitute with the output of a 'backtick' command. The length qualifier #
+#    is misused to identify one of the commands.                              #
+#                                                                             #
+# The c and C escape may be qualified with a 0 to make screen use zero        #
+# instead of space as fill character. The n and = escapes understand a        #
+# length qualifier (e.g. %3n), D and M can be prefixed with L to generate     #
+# long names, w and W also show the window flags if L is given.               #
+#                                                                             #
+# An attribute/color modifier is is used to change the attributes or the      #
+# color settings. Its format is '[attribute modifier] [color description]'.   #
+# The attribute modifier must be prefixed by a change type indicator if it    #
+# can be confused with a color description. The following change types are    #
+# known:                                                                      #
+#                                                                             #
+# + add the specified set to the current attributes                           #
+# - remove the set from the current attributes                                #
+# ! invert the set in the current attributes                                  #
+# = change the current attributes to the specified set                        #
+#                                                                             #
+# The attribute set can either be specified as a hexadecimal number or a      #
+# combination of the following letters:                                       #
+#                                                                             #
+# d dim       b bold                                                          #
+# u underline r reverse                                                       #
+# s standout  B blinking                                                      #
+#                                                                             #
+# Colors are coded either as a hexadecimal number or two letters specifying   #
+# the desired background and foreground color (in that order). The following  #
+# colors are known:                                                           #
+#                                                                             #
+# k black     r red                                                           #
+# g green     y yellow                                                        #
+# b blue      m magenta                                                       #
+# c cyan      w white                                                         #
+# d default   . unchanged                                                     #
+#                                                                             #
+# The capitalized versions of the letter specify bright colors. You can also  #
+# use the pseudo-color 'i' to set just the brightness and leave the color     #
+# unchanged.  A one digit/letter color description is treated as foreground   #
+# or background color dependent on the current attributes: if reverse mode    #
+# is set, the background color is changed instead of the foreground color.    #
+# If you don't like this, prefix the color with a '.' If you want the same    #
+# behavior for two-letter color descriptions, also prefix them with a '.'     #
+#                                                                             #
+# As a special case, '%{-}' restores the attributes and colors that were set  #
+# before the last change was made (i.e. pops one level of the color-change    #
+# stack).                                                                     #
+#                                                                             #
+###############################################################################

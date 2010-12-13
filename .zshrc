@@ -6,6 +6,11 @@ limit    core 0
 unsetopt flow_control
 unsetopt beep
 
+# autoloading functions
+# http://zsh.sourceforge.net/Doc/Release/zsh_8.html
+fpath=( ~/.zsh/functions $fpath )
+autoload -U ~/.zsh/functions/*(:t)
+
 # setup completion and other zsh options
 zstyle   :compinstall filename '/home/allan/.zshrc'
 zmodload zsh/complist
@@ -33,6 +38,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose yes
 
 setopt histignoredups   # ignore duplicate history entries
+setopt histignorespace  # ignore lines starting with a space
 setopt prompt_subst     # expand functions in the prompt
 setopt check_jobs       # report job status before exit, 2nd exit will succeed
 setopt notify           # notify immediately on job status change
@@ -52,12 +58,47 @@ export HISTFILE=~/.histfile
 export HISTSIZE=1000
 export SAVEHIST=1000
 
+# ANSI color codes:
+# To enter escape sequence do Ctrl-v [Esc] (Vim)
+#
+# Effects ######################################
+# 00  Reset/Normal/Default                     #
+# 01  Bold                                     #
+# 04  Underlined                               #
+# 05  Blink/Flashing                           #
+# 07  Inverse                                  #
+# 08  Concealed                                #
+# Colours & Backgrounds ########################
+# 30  Black        40  Black background        #
+# 31  Red          41  Red background          #
+# 32  Green        42  Green background        #
+# 33  Orange       43  Orange background       #
+# 34  Blue         44  Blue background         #
+# 35  Purple       45  Purple background       #
+# 36  Cyan         46  Cyan background         #
+# 37  Grey         47  Grey background         #
+# 90  Dark grey    100 Dark grey background    #
+# 91  Light red    101 Light red background    #
+# 92  Light green  102 Light green background  #
+# 93  Yellow       103 Yellow background       #
+# 94  Light blue   104 Light blue background   #
+# 95  Light purple 105 Light purple background #
+# 96  Turquoise    106 Turquoise background    #
+# 97  White        107 White background        #
+################################################
+
 # prompt and terminal title
-export PS1='%{$fg_bold[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %# '
-export RPROMPT='%{$fg_bold[blue]%}(${${RUBY_VERSION:-system}#ruby-})%{${reset_color}%}'
+export PS1='%{$fg[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %# '
 case ${TERM} in
   screen*)
-    precmd  () { print -Pn "\033k\033\134\033kzsh\033\134\e]0;${STY#*.}\a" }
+    # Keep the prompt short and sweet for screen
+    export PS1='%{$fg[yellow]%}%#%{$reset_color%} '
+    # XXX Unsure where the extra space is coming from but moving the cursor forward then back deals with it
+    # %D{} strftime formats: http://www.kernel.org/doc/man-pages/online/pages/man3/strftime.3.html
+    export RPROMPT='%{[1C[90m%}%D{%Y-%m-%d %a} %{[0m%}%{[100;30m%}%D{%H:%M}%{[00;90m%}%D{:%S}%{[0m[1D%}'
+    # Current working directory goes into the window title, ruby version and git branch into the hardstatus
+    # See http://www.nesono.com/node/322 for another way to get git branch into screen
+    precmd  () { print -Pn "\033k\033\134\033k%~\033\134\e]0;${${RUBY_VERSION:-system}#ruby-}, ${$(parse_git_branch):-none}\a" }
     preexec () { print -Pn "\033k\033\134\033k$1\033\134" }
     ;;
   xterm*|rxvt)
@@ -69,6 +110,10 @@ esac
 # setup aliases, suffix aliases and default programs
 if [[ -e "$HOME/.aliases" ]]; then
   source "$HOME/.aliases"
+fi
+
+if [[ -e "$HOME/.zsh/aliases" ]]; then
+  source "$HOME/.zsh/aliases"
 fi
 
 ls --color >/dev/null 2>&1

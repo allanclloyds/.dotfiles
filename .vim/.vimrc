@@ -87,7 +87,7 @@ set title                         " Boolean: set title of terminal
 set titlestring=vim:\ %F
 
 if $TERM == 'screen-256color-bce'
-   exe "set title titlestring=vim:%f"
+   exe "set title titlestring=%F"
    exe "set title t_ts=\<ESC>k t_fs=\<ESC>\\"
 endif
 
@@ -101,7 +101,7 @@ set laststatus=2                  " Always show status line
 
 set statusline=%-20.(%-5.L\\%5.l,%3.c,%3.v\ %)\|
 set statusline+=\ l:%p%%\ w:%P\ o:0x%O\ b:0x%B\ %=
-set statusline+=\ %F\ %r%w%{VarExists('b:gzflag','\ [gz]')}\[%{&ff}\]%y%{SyntasticStatuslineFlag()}%m
+set statusline+=\ %f\ %r%w%{VarExists('b:gzflag','\ [gz]')}\[%{&ff}\]%y%{SyntasticStatuslineFlag()}%m
 set statusline+=\ %<%{strftime(\"%Y-%m-%d\ %a\ %H:%M:%S\",getftime(expand(\"%:p\")))}
 
 " Speeddating plugin:
