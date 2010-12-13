@@ -15,3 +15,11 @@ if [ `uname -s` = "OpenBSD" ]; then
 else
   alias can-has="apt-get"
 fi
+
+alias quit=exit
+alias cls=clear
+alias logout=exit
+alias bye=exit
+alias p='ps -l'
+alias j=jobs
+alias o='fg %-'
