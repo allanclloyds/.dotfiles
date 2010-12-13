@@ -108,19 +108,13 @@ case ${TERM} in
 esac
 
 # setup aliases, suffix aliases and default programs
-if [[ -e "$HOME/.aliases" ]]; then
-  source "$HOME/.aliases"
+if [[ -e ~/.aliases ]]; then
+  . ~/.aliases
 fi
 
-if [[ -e "$HOME/.zsh/aliases" ]]; then
-  source "$HOME/.zsh/aliases"
+if [[ -e ~/.zsh/aliases ]]; then
+  . ~/.zsh/aliases
 fi
-
-ls --color >/dev/null 2>&1
-if [[ "$?" -eq "0" ]]; then
-  alias ls="ls --color"
-fi
-alias ll="ls -lFah"
 
 if [[ -x ~/bin/vim ]]; then
   export EDITOR=~/bin/vim

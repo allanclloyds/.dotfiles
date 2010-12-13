@@ -9,3 +9,19 @@ fi
 
 # Note that this script is run for both interactive and
 # non-interactive shells unlike bash/zsh.
+
+case "$-" in
+  *i*)
+    # We are interactive
+
+    # Shared aliases
+    if [ -e "${HOME}/.aliases" ]; then
+      . "${HOME}/.aliases"
+    fi
+    ;;
+  *)
+    # We are non-interactive
+    ;;
+esac
+
+# Commands for both interactive and non-interactive shells
