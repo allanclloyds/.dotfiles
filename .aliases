@@ -12,6 +12,6 @@ alias ll="ls -lFah"
 
 if [ `uname -s` = "OpenBSD" ]; then
   alias can-has="pkg_add"
-elif
+else
   alias can-has="apt-get"
 fi
