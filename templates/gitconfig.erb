@@ -1,0 +1,25 @@
+# ~/.gitconfig: Allan C. Lloyds <acl@acl.im>
+
+# Do not edit directly; changes will be overwritten
+# Generated from <%= File.join(options[:templates], "#{options[:file]}.erb") %>
+
+[user]
+  name   = <%= config['name']  %>
+  email  = <%= config['email'] %>
+
+[alias]
+  co     = checkout
+  st     = status
+
+[color]
+  ui     = auto
+  diff   = auto
+  status = auto
+  branch = auto
+
+[github]
+  user   = <%= config['github']['user']  %>
+  token  = <%= config['github']['token'] %>
+
+[url "git@github.com:<%= config['github']['user']  %>/"]
+  insteadOf = github:

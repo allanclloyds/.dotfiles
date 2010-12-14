@@ -3,3 +3,5 @@
 .dotfiles-*
 .irssi/
 .vim/view/*
+.boson/config/index.marshal
+templates/config.yml

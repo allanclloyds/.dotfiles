@@ -1,0 +1,8 @@
+# Rename to config.yml
+
+name: Real Name
+email: you@example.com
+
+github:
+  user: username
+  token: x
