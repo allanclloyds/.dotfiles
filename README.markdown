@@ -1,14 +1,13 @@
 # 5l's .dotfiles
 
-These are some of my dotfiles, hopefully they will come in handy for someone.
+These are my dotfiles; hopefully they will come in handy for someone.
 
-I have a [Boson](http://tagaholic.me/boson/) script for generating some of
-the dotfiles from templates, and symlinking the dotfiles to your home
-directory. It is based on [Ryan Bates](http://railscasts.com/)' dotfiles
-[Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile).
-
-Assuming you don't already have a ~/.boson directory, you can do this to
-install the dotfiles:
+I have a [Boson](http://tagaholic.me/boson/) script for generating some of the
+dotfiles from templates, and symlinking the dotfiles to your home directory. It
+is based on [Ryan Bates](http://railscasts.com/)' dotfiles
+[Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile). Assuming
+you don't already have a ~/.boson directory, you can do this to install the
+dotfiles:
 
     gem install boson
     cd ~
@@ -28,12 +27,11 @@ though, just in case!).
 `symlink_all`, `regenerate` and `regenerate_all`. Take a look at the
 source for more info.
 
-In all likelyhood though, you wont want the whole lot; you can use git
-sparse checkouts to take just the Vim stuff (detailed below) or just pick
-through and take what you find useful.
-
-/I've tried to provide attributions on everything that's not mine; if you
-see something not properly attributed, please let me know./
+In all likelihood though, you wont want the whole lot; you can use git sparse
+checkouts to take just the Vim stuff (detailed below) or just pick through and
+take what you find useful. *I've tried to provide attributions on everything
+that's not mine; if you see something not properly attributed, please let me
+know.*
 
 ## GNU Screen
 
