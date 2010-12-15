@@ -3,6 +3,7 @@
 
 termcapinfo xterm*|Eterm|mlterm "hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+bufferfile  "${HOME}/.screen-exchange"
 
 defbce      "on"            # http://aperiodic.net/screen/commands:bce
 attrcolor   b ".I"          # http://aperiodic.net/screen/commands:attrcolor
