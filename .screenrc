@@ -1,19 +1,40 @@
 # ~/.screenrc: Allan C. Lloyds <acl@acl.im>
 # String escapes reference at end of file
 
-termcapinfo xterm*|Eterm|mlterm "hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007"
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-bufferfile  "${HOME}/.screen-exchange"
+termcapinfo   xterm*|Eterm|mlterm "hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007"
+termcapinfo   xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+bufferfile    "${HOME}/.screen-exchange"
 
-defbce      "on"            # http://aperiodic.net/screen/commands:bce
-attrcolor   b ".I"          # http://aperiodic.net/screen/commands:attrcolor
-term        screen-256color # http://aperiodic.net/screen/commands:term
+termcapinfo   xterm* ti@:te@  # Fix scrollback in PuTTY; also uncheck
+                              # 'Reset scrollback on display activity'
 
-caption     always          # always display window list
-hardstatus  alwayslastline  # set to off to put hardstatus in Xterm title
-vbell       off             # beep, don't flash
+defbce        "on"            # http://aperiodic.net/screen/commands:bce
+attrcolor     b ".I"          # http://aperiodic.net/screen/commands:attrcolor
+term          screen-256color # http://aperiodic.net/screen/commands:term
 
-backtick    1 0 0 whoami    # store results of `whoami` in %1`
+caption       always          # always display window list
+hardstatus    alwayslastline  # set to off to put hardstatus in Xterm title
+defscrollback 1000            # increase scrollback buffer
+vbell         off             # beep, don't flash
+
+bell_msg      'Bell in %n'  # http://wiki.kartbuilding.net/index.php/Screen
+                              # In PuTTY also set:
+                              # Taskbar/caption indication on bell: Flashing
+
+backtick      1 0 0 whoami    # store results of `whoami` in %1`
+
+bind + command -c select10    # Select high window numbers with C-a+0..9
+
+bind -c select10 0 select 10
+bind -c select10 1 select 11
+bind -c select10 2 select 12
+bind -c select10 3 select 13
+bind -c select10 4 select 14
+bind -c select10 5 select 15
+bind -c select10 6 select 16
+bind -c select10 7 select 17
+bind -c select10 8 select 18
+bind -c select10 9 select 19
 
 # The caption/hardstatus look something like this in a narrow (80 column)
 # terminal when running Zsh in windows 0 and 2 and vim editing this file
