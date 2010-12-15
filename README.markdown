@@ -42,16 +42,37 @@ statusline, and displays the current Ruby version (as managed by
 `~/.screenrc`, `~/.zshrc` and `~/.zsh/commands/parse_git_branch` to see
 how it fits together.
 
+### Copy/paste
+
+The `~/.boson/commands/clipboard.rb` Boson script gives you `copy`, `paste` and
+`copy_history` commands to access the pastebuffer from IRB. From Vim, the
+[fakeclip](http://www.vim.org/scripts/script.php?script_id=2098) plugin
+provides virtual clipboard registers, one of which also allows access to the
+pastebuffer.
+
+Thus:
+
+    irb> class Foo
+    irb>   def bar; true; end
+    irb> end
+    irb> copy_history
+
+And then in Vim `"&p` will paste:
+
+    class Foo
+      def bar; true; end
+    end
+
 ## Ruby/IRB
 
-There are a bunch of IRB enhancements in `~/.irbrc`; of particular note
-are the amazing [Boson](http://tagaholic.me/boson/),
-[Hirb](http://tagaholic.me/hirb/) and [Bond](http://tagaholic.me/bond/)
-libraries by [Gabriel Horner](http://tagaholic.me) which add a command
-framework, a view framework and better tab completion respectively; the
-[interactive_editor](https://github.com/jberkel/interactive_editor) gem
-which allows you to use Vim from inside IRB, and the
-[awesome_print](https://github.com/michaeldv/awesome_print) gem which
+There are a bunch of IRB enhancements in `~/.irbrc`; of particular note are the
+amazing [Boson](http://tagaholic.me/boson/), [Hirb](http://tagaholic.me/hirb/)
+and [Bond](http://tagaholic.me/bond/) libraries by [Gabriel
+Horner](http://tagaholic.me) which add a command framework, a view framework
+and better tab completion respectively; the
+[interactive_editor](https://github.com/jberkel/interactive_editor) gem which
+allows you to use Vim from inside IRB (also see the Copy/Paste section above),
+and the [awesome_print](https://github.com/michaeldv/awesome_print) gem which
 gives you really pretty printing of Ruby objects.
 
 ## ksh/bash/zsh
@@ -119,8 +140,10 @@ for syntax checking,
 [snipMate.vim](http://www.vim.org/scripts/script.php?script_id=2540)
 which implements TextMate's code snippets in Vim,
 [Gist.vim](http://www.vim.org/scripts/script.php?script_id=2423)
-to copy code to Github's Gist, and
+to copy code to Github's Gist
 [surround.vim](http://www.vim.org/scripts/script.php?script_id=1697)
-for fast quoting/parenthesizing.
+for fast quoting/parenthesizing, and
+[fakeclip](http://www.vim.org/scripts/script.php?script_id=2098)
+for virtual clipboard registers (see the Copy/Paste section above)
 
 `vim: set et ff=unix ft=markdown fdm=marker ts=2 sw=2 sts=2 tw=74:`
