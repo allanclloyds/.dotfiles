@@ -94,6 +94,7 @@ case ${TERM} in
     # Keep the prompt short and sweet for screen
     export PS1='%{$fg[yellow]%}%#%{$reset_color%} '
     # XXX Unsure where the extra space is coming from but moving the cursor forward then back deals with it
+    #     Github users: This line contains control characters you can't see: eg. '{%^[[1C...'
     # %D{} strftime formats: http://www.kernel.org/doc/man-pages/online/pages/man3/strftime.3.html
     export RPROMPT='%{[1C[90m%}%D{%Y-%m-%d %a} %{[0m%}%{[100;30m%}%D{%H:%M}%{[00;90m%}%D{:%S}%{[0m[1D%}'
     # Current working directory goes into the window title, ruby version and git branch into the hardstatus

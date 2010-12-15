@@ -17,7 +17,8 @@ hardstatus    alwayslastline  # set to off to put hardstatus in Xterm title
 defscrollback 1000            # increase scrollback buffer
 vbell         off             # beep, don't flash
 
-bell_msg      'Bell in %n'  # http://wiki.kartbuilding.net/index.php/Screen
+bell_msg      'Bell in %n'  # Github users: it's actually '^GBell in %n'
+                              # http://wiki.kartbuilding.net/index.php/Screen
                               # In PuTTY also set:
                               # Taskbar/caption indication on bell: Flashing
 

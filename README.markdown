@@ -24,10 +24,20 @@ and we all know what they say about workmen who do that. Or even worse, much
 worse... \*leans closer\* *you might even switch to a mac for the sake of
 convenience*. And thus, heartache turns to tragedy.
 
+### Symlinks & Control Characters in Github
+
+Github doesn't display symlinks very well; they look like ordinary files
+containing only the path to the target. In particular note that `~/.vimrc` and
+`~/.gvimrc` are symlinks to `~/.vim/.vimrc` and `~/.vim/.gvimrc` respectively.
+
+I also noticed that when browsing via Github, you won't see control characters
+like `^[` or `^G`. I've added a note in most places where this applies, but
+keep it in mind when looking at prompts and messages etc.
+
 ## Management
 
 I have a [Boson](http://tagaholic.me/boson/) script for generating some of the
-dotfiles from templates (the ones with private information like `~/.gitconfig`,
+dotfiles from templates (the ones with private information like `~/.gitconfig`),
 and symlinking the dotfiles to my home directory. It is based on [Ryan
 Bates](http://railscasts.com/)' dotfiles
 [Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile). Assuming you
@@ -96,7 +106,7 @@ and [Bond](http://tagaholic.me/bond/) libraries by [Gabriel
 Horner](http://tagaholic.me) which add a command framework, a view framework
 and better tab completion respectively; the
 [interactive_editor](https://github.com/jberkel/interactive_editor) gem which
-allows you to use Vim from inside IRB (also see the Copy/Paste section above),
+allows you to use Vim from inside IRB (also see the Copy/paste section above),
 and the [awesome_print](https://github.com/michaeldv/awesome_print) gem which
 gives you really pretty printing of Ruby objects.
 
@@ -169,6 +179,6 @@ to copy code to Github's Gist
 [surround.vim](http://www.vim.org/scripts/script.php?script_id=1697)
 for fast quoting/parenthesizing, and
 [fakeclip](http://www.vim.org/scripts/script.php?script_id=2098)
-for virtual clipboard registers (see the Copy/Paste section above)
+for virtual clipboard registers (see the Copy/paste section above)
 
 `vim: set et ff=unix ft=markdown fdm=marker ts=2 sw=2 sts=2 tw=74:`
