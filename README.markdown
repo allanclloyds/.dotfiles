@@ -1,12 +1,37 @@
 # 5l's .dotfiles
 
-These are my dotfiles; hopefully they will come in handy for someone.
+These are my dotfiles, finally crafted to my satisfaction. You see, over the
+years they had become like a set of arcane spellbooks which I didn't dare to
+touch. I'd forgotten what half of those settings did or why I added them. I
+wouldn't code like that I mused, and yet here I was with cargo culted
+configuration for my tools.
+
+`cd ~/.vim` was like entering a den of thieves, with plugins and cryptic scripts
+glaring at me from their hiding holes. This is our land they said, and you are
+not welcome here. "But why is my Ruby indentation all screwed up?" I asked.
+"None of your goddamn business" they replied.
+
+Well I decided I'd had quite enough of that; with hard lessons learned from the
+ominously prescient Battlestar Galactica and some time on my hands, I tidied
+everything up, put it all in git and fixed the annoyances I had with
+zsh/screen/vim/irb/etc to get them playing better together. Unlike 'user
+friendly' GUI tools, these programs require love and affection. If you take a
+little time out of your daily workflow to show them some, they will repay that
+effort a thousandfold.
+
+Otherwise, well, you are doomed to spend your working life cursing your tools,
+and we all know what they say about workmen who do that. Or even worse, much
+worse... \*leans closer\* *you might even switch to a mac for the sake of
+convenience*. And thus, heartache turns to tragedy.
+
+## Management
 
 I have a [Boson](http://tagaholic.me/boson/) script for generating some of the
-dotfiles from templates, and symlinking the dotfiles to your home directory. It
-is based on [Ryan Bates](http://railscasts.com/)' dotfiles
-[Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile). Assuming
-you don't already have a ~/.boson directory, you can do this to install the
+dotfiles from templates (the ones with private information like `~/.gitconfig`,
+and symlinking the dotfiles to my home directory. It is based on [Ryan
+Bates](http://railscasts.com/)' dotfiles
+[Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile). Assuming you
+don't already have a ~/.boson directory, you can do this to install the
 dotfiles:
 
     gem install boson
