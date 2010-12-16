@@ -79,11 +79,11 @@ how it fits together.
 
 ### Copy/paste
 
-The `~/.boson/commands/clipboard.rb` Boson script gives you `copy`, `paste` and
-`copy_history` commands to access the pastebuffer from IRB. From Vim, the
-[fakeclip](http://www.vim.org/scripts/script.php?script_id=2098) plugin
-provides virtual clipboard registers, one of which also allows access to the
-pastebuffer.
+The `~/.boson/commands/clipboard.rb` Boson script gives you `copy`, `paste`,
+`copy_history` and `copy_editor` commands to access the pastebuffer from IRB.
+From Vim, the [fakeclip](http://www.vim.org/scripts/script.php?script_id=2098)
+plugin provides virtual clipboard registers, one of which also allows access to
+the pastebuffer.
 
 Thus:
 
@@ -92,23 +92,39 @@ Thus:
     irb> end
     irb> copy_history
 
-And then in Vim `"&p` will paste:
+And then in Vim (perhaps after typing `vim` to jump straight into the
+editor from IRB using the
+[interactive_editor](https://github.com/jberkel/interactive_editor) gem),
+ `"&p` will paste:
 
     class Foo
       def bar; true; end
     end
 
+Additionally, while using the
+[interactive_editor](https://github.com/jberkel/interactive_editor) gem,
+`copy_editor` will copy whatever is in the editor you are using inside IRB into
+the pastebuffer (and `eval paste` will then run it without you needing to open
+and close the editor again, although this functionality would be better added
+to the gem itself).
+
+Note that these commands can also work with your system clipboard when not
+inside screen. This should work as is with Mac OSX; an additional program may be
+required in \*nix or Windows. Take a look at `~/.boson/commands/clipboard.rb`
+for suggestions.
+
 ## Ruby/IRB
 
-There are a bunch of IRB enhancements in `~/.irbrc`; of particular note are the
-amazing [Boson](http://tagaholic.me/boson/), [Hirb](http://tagaholic.me/hirb/)
-and [Bond](http://tagaholic.me/bond/) libraries by [Gabriel
-Horner](http://tagaholic.me) which add a command framework, a view framework
-and better tab completion respectively; the
-[interactive_editor](https://github.com/jberkel/interactive_editor) gem which
-allows you to use Vim from inside IRB (also see the Copy/paste section above),
-and the [awesome_print](https://github.com/michaeldv/awesome_print) gem which
-gives you really pretty printing of Ruby objects.
+There are a bunch of other IRB enhancements in `~/.irbrc`; of particular note
+are the amazing [Boson](http://tagaholic.me/boson/),
+[Hirb](http://tagaholic.me/hirb/) and [Bond](http://tagaholic.me/bond/)
+libraries by [Gabriel Horner](http://tagaholic.me) which add a command
+framework, a view framework and better tab completion respectively; the
+[interactive_editor](https://github.com/jberkel/interactive_editor) gem
+mentioned in the section above which allows you to use Vim or another editor
+from inside IRB, and the
+[awesome_print](https://github.com/michaeldv/awesome_print) gem which gives you
+really pretty printing of Ruby objects.
 
 ## ksh/bash/zsh
 
@@ -179,6 +195,6 @@ to copy code to Github's Gist
 [surround.vim](http://www.vim.org/scripts/script.php?script_id=1697)
 for fast quoting/parenthesizing, and
 [fakeclip](http://www.vim.org/scripts/script.php?script_id=2098)
-for virtual clipboard registers (see the Copy/paste section above)
+for virtual clipboard registers (see the copy/paste section above)
 
 `vim: set et ff=unix ft=markdown fdm=marker ts=2 sw=2 sts=2 tw=74:`
