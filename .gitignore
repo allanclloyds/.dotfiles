@@ -1,7 +1,9 @@
 .gitconfig
 .dotfiles.*
 .dotfiles-*
-.irssi/
+.irssi/config
+.irssi/startup
+.irssi/sasl.auth
 .vim/view/*
 .boson/config/index.marshal
 templates/config.yml
