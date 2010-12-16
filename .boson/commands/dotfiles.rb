@@ -70,7 +70,7 @@ module Dotfiles
     end
     cwd = Dir.pwd; Dir.chdir(ENV['HOME'])
     # Use a relative symlink if .dotfiles is under home directory
-    options[:dotfiles].sub!(Regexp.new("^#{ENV['HOME']}/*"), '')
+    options[:dotfiles].sub!(/^#{ENV['HOME']}\/*/, '')
     system %Q{ln -#{f}s "#{File.join(options[:dotfiles], options[:file])}" "#{File.join(ENV['HOME'], options[:file])}"}
     Dir.chdir(cwd)
   end
@@ -93,7 +93,7 @@ module Dotfiles
   #         :type => :string, :desc => 'Output location'
   # @option :config,    :default => File.join(ENV['HOME'], '.dotfiles/templates/config.yml'),
   #         :type => :string, :desc => 'Location of yaml configuration file',
-  # Regenerate a single dotfile from a template
+  # Regenerate a single dotfile from a template.
   def regenerate(options = {})
     options[:file] = File.basename(options[:file], '.erb')
     options[:file].sub!(/^\./, '')
@@ -101,8 +101,12 @@ module Dotfiles
 
     config = YAML.load_file(options[:config])
 
-    File.open(File.join(options[:dotfiles], ".#{options[:file]}"), 'w') do |new_file|
-      puts "Regenerating: .#{options[:file]}"
+    # Colons in the template name will be converted to slashes for the target.
+    # Thus irssi:config will be installed to [dotfiles]/.irssi/config
+    # (the destination directory must already exist).
+
+    File.open(File.join(options[:dotfiles], ".#{options[:file].gsub(':', '/')}"), 'w') do |new_file|
+      puts "Regenerating: .#{options[:file].gsub(':', '/')}"
       new_file.write ERB.new(File.read(File.join(options[:templates], "#{options[:file]}.erb"))).result(binding)
     end
   end
