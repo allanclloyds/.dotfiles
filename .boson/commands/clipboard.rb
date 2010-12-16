@@ -60,4 +60,19 @@ module Clipboard
     content = history[(index+1)..-2].join("\n")
     clipboard_copy(options.merge({:string => content}))
   end
+
+  # @option :bufferfile,      :default => File.join(ENV['HOME'], '.screen-exchange'),
+  #         :type => :string, :desc    => 'Bufferfile to use with GNU Screen'
+  # @option :editor,          :default => ENV['EDITOR'],
+  #         :type => :string, :desc    => 'Interactive editor in use'
+  # For use with interactive_editor gem
+  def copy_editor(options = {})
+    if IRB.conf.has_key? :interactive_editors
+      file = ([options[:editor]] + IRB.conf[:interactive_editors].keys).compact.map {|e|
+        IRB.conf[:interactive_editors][e].instance_variable_get('@file')
+      }.find {|f| !f.nil?}
+
+      clipboard_copy(options.merge({:string => IO.read(file)})) unless file.nil?
+    end
+  end
 end
