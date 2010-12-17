@@ -28,6 +28,8 @@ begin
   # interactive_editor => Run Vim from inside IRB
   #                         https://github.com/jberkel/interactive_editor
 
+# {{{ Core Enhancements #######################################################
+
   class Object
     # Return a list of methods defined locally for a particular object. Useful
     # for seeing what it does whilst losing all the guff that's implemented
@@ -36,8 +38,8 @@ begin
       (obj.methods - obj.class.superclass.instance_methods).sort
     end
 
-    # Print documentation => https://github.com/ryanb/dotfiles/blob/master/irbrc
-    # eg. ri 'Array#pop' / Array.ri / Array.ri :pop / arr.ri :pop
+    # Print documentation eg. ri 'Array#pop' / Array.ri / Array.ri :pop
+    # From: https://github.com/ryanb/dotfiles/blob/master/irbrc
     def ri(method = nil)
       unless method && method =~ /^[A-Z]/ # if class isn't specified
         klass = self.kind_of?(Class) ? name : self.class.name
@@ -47,8 +49,16 @@ begin
     end
   end
 
+  # Show matching text in a string for a given regexp
+  # From: Pickaxe book
+  def show_regexp(a, re); a =~ re ? "#{$`}<<#{$&}>>#{$'}" : "no match"; end
+
+  # Convenience method on Regexp so you can do /an/.show_match("banana")
+  # From: http://www.ruby-forum.com/topic/84414
+  class Regexp; def show_match(a); show_regexp(a, self); end; end
+
   # Another IRB log
-  # http://blog.nicksieger.com/articles/2006/04/23/tweaking-irb
+  # From: http://blog.nicksieger.com/articles/2006/04/23/tweaking-irb
   module Readline
     module History
       LOG = "#{ENV['HOME']}/.irb-readline-history"
@@ -66,21 +76,21 @@ begin
     alias :old_readline :readline
     def readline(*args)
       ln = old_readline(*args)
-      begin
-        History.write_log(ln)
-      rescue
-      end
+      History.write_log(ln) rescue Exception
       ln
     end
   end
 
   Readline::History.start_session_log
+# }}}
 
-  # IRB Options => http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html
+# {{{ IRB Configuration #######################################################
 
   require 'irb/completion'       # Tab completion
   require 'irb/ext/save-history' # History
   require 'irb/xmp'              # Example printer
+
+  # IRB Options => http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html
 
   IRB.conf[:SAVE_HISTORY]        = 1000
   IRB.conf[:HISTORY_FILE]        = "#{ENV['HOME']}/.irb-save-history"
@@ -139,6 +149,7 @@ begin
   Hirb.enable          if defined? Hirb
   extend Hirb::Console if defined? Hirb
   Bond.start           if defined? Bond
+# }}}
 rescue Exception => error
   warn "Problem in ~/.irbrc: #{error}"
 end
