@@ -88,11 +88,17 @@ export SAVEHIST=1000
 ################################################
 
 # prompt and terminal title
-export PS1='%{$fg[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %# '
+PS1_LONG='
+%{$fg[yellow]%}%n@${${TTY#/dev/}//\//-}.%m%{${reset_color}%}:%{$fg_bold[red]%}%~%{${reset_color}%} %# '
+PS1_SHORT='
+%{$fg[yellow]%}%#%{$reset_color%} '
+
+export PS1=${PS1_LONG}
+
 case ${TERM} in
   screen*)
     # Keep the prompt short and sweet for screen
-    export PS1='%{$fg[yellow]%}%#%{$reset_color%} '
+    export PS1=${PS1_SHORT}
     # XXX Unsure where the extra space is coming from but moving the cursor forward then back deals with it
     #     Github users: This line contains control characters you can't see: eg. '{%^[[1C...'
     # %D{} strftime formats: http://www.kernel.org/doc/man-pages/online/pages/man3/strftime.3.html
