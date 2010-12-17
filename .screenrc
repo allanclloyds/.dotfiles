@@ -37,12 +37,12 @@ bind -c select10 7 select 17
 bind -c select10 8 select 18
 bind -c select10 9 select 19
 
-# The caption/hardstatus look something like this in a narrow (80 column)
-# terminal when running Zsh in windows 0 and 2 and vim editing this file
-# in window 1 (a wider terminal will also show the system load):
+# The caption/hardstatus looks something like this in a narrow (80 column)
+# terminal when running Zsh in window 2, Irssi in 1, and Vim editing this file
+# in window 0 (a wider terminal will also show the system load):
 #
-#                   0$ ~  1*$ ~/.dotfiles/.screenrc  2-$ /tmp
-# allan@x:~/.dotfiles/.screenrc (1*$, 1.9.2-p0, master*) 2010-12-12 Sun 23:35:06
+#                           0*$ ^^^  1-$ irssi  2$ ~
+# allan@x:~/.dotfiles/.screenrc (1.9.2-p0, master*)      2010-12-17 Fri 15:56:33
 
 # Truncation/padding in screen seems to be a bit of a black art, right up there
 # with Sendmail configuration, Apache mod_rewrite and eating ice cream without
