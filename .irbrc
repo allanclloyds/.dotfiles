@@ -85,7 +85,37 @@ begin
   IRB.conf[:SAVE_HISTORY]        = 1000
   IRB.conf[:HISTORY_FILE]        = "#{ENV['HOME']}/.irb-save-history"
   IRB.conf[:BACK_TRACE_LIMIT]    = 100
-  IRB.conf[:AUTO_INDENT]         = true
+  IRB.conf[:AUTO_INDENT]         = false
+  IRB.conf[:USE_READLINE]        = true
+
+  # Reset terminal title to 'irb' or 'irb/railsapp/env' (needed especially when
+  # using Vim from inside IRB with the interactive_editor gem, otherwise we're
+  # left with the filename in the title, or worse, 'Thank you for flying Vim').
+
+  term_title = defined?(RAILS_ROOT) ? "irb/#{RAILS_ROOT.split('/').last}/#{RAILS_ENV[0,1]}" : 'irb'
+
+  case ENV['TERM']
+  when /screen/
+    term_title = "\ek#{term_title}\e\\"
+  when /(xterm|rxvt)/
+    term_title = "\e]0;#{term_title}\a"
+  else
+    term_title = ''
+  end
+
+  # Less verbosity, more color in our prompt. These escape sequences might mess
+  # things up for some versions of IRB/readline, but it doesn't affect me any,
+  # especially with auto indentation disabled (which is far too broken for my
+  # taste anyway). See ~/.zshrc for ANSI color code table.
+
+  IRB.conf[:PROMPT][:CUSTOM] = {
+    :PROMPT_N => "\e[0;1;31m+ \e[0m",
+    :PROMPT_I => "\n#{term_title}\e[0;1;31m> \e[0m",
+    :PROMPT_S => "  ",
+    :PROMPT_C => "\e[0;1;31m~ \e[0m",
+    :RETURN   => "\e[0;0;37m= \e[0m%s \n"
+  }
+  IRB.conf[:PROMPT_MODE] = :CUSTOM
 
   %w(rubygems map_by_method what_methods awesome_print looksee/shortcuts wirble
      pp yaml boson hirb bond interactive_editor).each do |gem|
