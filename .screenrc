@@ -119,9 +119,9 @@ caption string '%{= kk}.%{kK}%01=%=%?%-Lw%?%45L>%{=u kK}%n*%f%?(%u)%? ^^^^^^%{-}
 # aligned on the right with the last modified time displayed in Vim, and the
 # timestamp on the Zsh prompt.
 
-#                         .whoami  .window title     .else        .system load
+#                         .whoami  .window title     .else         .system load
 #                         |   .hostname  .if block .window hardstatus                  date, day and time
-#                         |   |    |     |         | |            |               ////////////////////////////
+#                         |   |    |     |         | |             |              ////////////////////////////
 hardstatus string "%{= ky}%1`@%H%?:%t%? (%?%u, %?%?%h%:-%?) %{kK}%=%l |%{-}%-024= %Y-%m-%d %D %{yk}%0c%{-}:%s"
 #                  |                       |                     |         |
 #                  `black bg, yellow fg    `other users          `pad here `position 24 chars from right
