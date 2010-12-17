@@ -70,13 +70,13 @@ bind -c select10 9 select 19
 # current one. Content between %?...%x...%? will not display if '%x' is empty,
 # and finally, %{} sets the colors and text attributes (see table at end).
 
-#                      .force color reset  .keep at 45% from left     .current window title
-#                      |     .position 1 char from left    .flags     | .restore previous colors
-#                      |     |             |               |          | |
-caption string '%{= kk}.%{kK}%01=%=%?%-Lw%?%45L>%{=u kK}%n*%f%?(%u)%? %t%{-}%?%+Lw%?%{-}.%=%-01='
-#               |                |   |                  |       |             |
-#               |                `fill with spaces      |       `other users  |
-#               `black bg, black fg  `windows to left   `current window no.   `windows to right
+#                      .force color reset  .keep at 45% from left
+#                      |     .position 1 char from left    .flags           .restore previous colors
+#                      |     |             |               |                |
+caption string '%{= kk}.%{kK}%01=%=%?%-Lw%?%45L>%{=u kK}%n*%f%?(%u)%? ^^^^^^%{-}%?%+Lw%?%{-}.%=%-01='
+#               |                |   |                  |       |                 |
+#               |                `fill with spaces      |       `other users      |
+#               `black bg, black fg  `windows to left   `current window no.       `windows to right
 
 # Note: when reading the below, keep in mind the difference between the
 # hardstatus bar displayed at the bottom of the screen, and the window
@@ -119,12 +119,12 @@ caption string '%{= kk}.%{kK}%01=%=%?%-Lw%?%45L>%{=u kK}%n*%f%?(%u)%? %t%{-}%?%+
 # aligned on the right with the last modified time displayed in Vim, and the
 # timestamp on the Zsh prompt.
 
-#                         .whoami  .window title  .other users          .system load
-#                         |   .hostname  .window no.      .window hardstatus               date, day and time
-#                         |   |    |     |        |       |             |             ////////////////////////////
-hardstatus string "%{= ky}%1`@%H%?:%t%? (%n*%f%?, %u%?%?, %h%?) %{kK}%=[%l]%{-}%-024= %Y-%m-%d %D %{yk}%0c%{-}:%s"
-#                  |                        |                                  |
-#                  `black bg, yellow fg     `window flags                      `position 24 chars from right
+#                         .whoami  .window title     .else        .system load
+#                         |   .hostname  .if block .window hardstatus                  date, day and time
+#                         |   |    |     |         | |            |               ////////////////////////////
+hardstatus string "%{= ky}%1`@%H%?:%t%? (%?%u, %?%?%h%:-%?) %{kK}%=%l |%{-}%-024= %Y-%m-%d %D %{yk}%0c%{-}:%s"
+#                  |                       |                     |         |
+#                  `black bg, yellow fg    `other users          `pad here `position 24 chars from right
 
 # I'm probably missing a trick or two, and idealy I'd like the truncated text
 # in the hardstatus to show a ellipsis, but there comes a point when you realize
