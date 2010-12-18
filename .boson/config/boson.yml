@@ -1,1 +1,41 @@
-:command_aliases:
+:defaults:
+- dotfiles
+- clipboard
+- httparty
+- restclient
+:libraries:
+  httparty:
+    object_methods: false
+    namespace: true
+    class_commands:
+      HTTParty:
+      - get
+      - post
+      - put
+      - delete
+  restclient:
+    object_methods: false
+    namespace: true
+    :class_commands:
+      RestClient:
+      - head
+      - get
+      - post
+      - put
+      - delete
+  fileutils:
+    :class_commands:
+      FileUtils:
+      - mv
+      - cp
+      - rm
+    :commands:
+      mv:
+        :options:
+          :force: :boolean
+          :noop: :boolean
+          :verbose: :boolean
+pipe_options:
+  copy:
+    type: :boolean
+    desc: Copy to clipboard

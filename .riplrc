@@ -1,0 +1,38 @@
+# ~/.riplrc: Allan C. Lloyds <acl@acl.im>
+# vim: set et ff=unix ft=ruby fdm=marker ts=2 sw=2 sts=2 tw=0:
+
+begin
+  app = defined?(RAILS_ROOT) ? "/#{RAILS_ROOT.split('/').last}/#{RAILS_ENV[0,1]}" : ''
+
+  case ENV['TERM']
+  when /screen/
+    Ripl.config[:prompt] = "\ekripl#{app}\e\\\n\e[0;1;31m> \e[0m"
+  when /(xterm|rxvt)/
+    Ripl.config[:prompt] = "\e]0;ripl#{app}\a\n\e[0;1;31m> \e[0m"
+  else
+    Ripl.config[:prompt] = "\e[0;1;31m> \e[0m"
+  end
+
+  %w[ripl/multi_line ripl/color_error ripl/color_result
+     ripl/color_streams ripl/commands ripl/hirb awesome_print
+  ].each do |plugin|
+    begin
+      require plugin
+    rescue LoadError => error
+      warn "Missing ripl plugin: #{error}"
+    end
+  end
+
+  Ripl.config[:multi_line_prompt]     = "\e[0;1;31m+ \e[0m"
+  Ripl.config[:color_error]           = :red
+
+  if defined? AwesomePrint
+    Ripl.config[:color_result_engine] = :ap
+  end
+
+  Ripl.config[:result_prompt]         = '= '
+  Ripl.config[:history]               = '~/.ripl-history'
+
+rescue Exception => error
+  warn "Problem in ~/.riplrc: #{error}"
+end

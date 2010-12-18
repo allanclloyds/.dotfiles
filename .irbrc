@@ -86,46 +86,50 @@ begin
 
 # {{{ IRB Configuration #######################################################
 
-  require 'irb/completion'       # Tab completion
-  require 'irb/ext/save-history' # History
-  require 'irb/xmp'              # Example printer
+  # Check we're in IRB and not ripl
 
-  # IRB Options => http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html
+  if defined? IRB
+    require 'irb/completion'       # Tab completion
+    require 'irb/ext/save-history' # History
+    require 'irb/xmp'              # Example printer
 
-  IRB.conf[:SAVE_HISTORY]        = 1000
-  IRB.conf[:HISTORY_FILE]        = "#{ENV['HOME']}/.irb-save-history"
-  IRB.conf[:BACK_TRACE_LIMIT]    = 100
-  IRB.conf[:AUTO_INDENT]         = false
-  IRB.conf[:USE_READLINE]        = true
+    # IRB Options => http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html
 
-  # Reset terminal title to 'irb' or 'irb/railsapp/env' (needed especially when
-  # using Vim from inside IRB with the interactive_editor gem, otherwise we're
-  # left with the filename in the title, or worse, 'Thank you for flying Vim').
+    IRB.conf[:SAVE_HISTORY]        = 1000
+    IRB.conf[:HISTORY_FILE]        = "#{ENV['HOME']}/.irb-save-history"
+    IRB.conf[:BACK_TRACE_LIMIT]    = 100
+    IRB.conf[:AUTO_INDENT]         = false
+    IRB.conf[:USE_READLINE]        = true
 
-  term_title = defined?(RAILS_ROOT) ? "irb/#{RAILS_ROOT.split('/').last}/#{RAILS_ENV[0,1]}" : 'irb'
+    # Reset terminal title to 'irb' or 'irb/railsapp/env' (needed especially when
+    # using Vim from inside IRB with the interactive_editor gem, otherwise we're
+    # left with the filename in the title, or worse, 'Thank you for flying Vim').
 
-  case ENV['TERM']
-  when /screen/
-    term_title = "\ek#{term_title}\e\\"
-  when /(xterm|rxvt)/
-    term_title = "\e]0;#{term_title}\a"
-  else
-    term_title = ''
+    term_title = defined?(RAILS_ROOT) ? "irb/#{RAILS_ROOT.split('/').last}/#{RAILS_ENV[0,1]}" : 'irb'
+
+    case ENV['TERM']
+    when /screen/
+      term_title = "\ek#{term_title}\e\\"
+    when /(xterm|rxvt)/
+      term_title = "\e]0;#{term_title}\a"
+    else
+      term_title = ''
+    end
+
+    # Less verbosity, more color in our prompt. These escape sequences might mess
+    # things up for some versions of IRB/readline, but it doesn't affect me any,
+    # especially with auto indentation disabled (which is far too broken for my
+    # taste anyway). See ~/.zshrc for ANSI color code table.
+
+    IRB.conf[:PROMPT][:CUSTOM] = {
+      :PROMPT_N => "\e[0;1;31m+ \e[0m",
+      :PROMPT_I => "\n#{term_title}\e[0;1;31m> \e[0m",
+      :PROMPT_S => "  ",
+      :PROMPT_C => "\e[0;1;31m~ \e[0m",
+      :RETURN   => "\e[0;0;37m= \e[0m%s \n"
+    }
+    IRB.conf[:PROMPT_MODE] = :CUSTOM
   end
-
-  # Less verbosity, more color in our prompt. These escape sequences might mess
-  # things up for some versions of IRB/readline, but it doesn't affect me any,
-  # especially with auto indentation disabled (which is far too broken for my
-  # taste anyway). See ~/.zshrc for ANSI color code table.
-
-  IRB.conf[:PROMPT][:CUSTOM] = {
-    :PROMPT_N => "\e[0;1;31m+ \e[0m",
-    :PROMPT_I => "\n#{term_title}\e[0;1;31m> \e[0m",
-    :PROMPT_S => "  ",
-    :PROMPT_C => "\e[0;1;31m~ \e[0m",
-    :RETURN   => "\e[0;0;37m= \e[0m%s \n"
-  }
-  IRB.conf[:PROMPT_MODE] = :CUSTOM
 
   %w(rubygems map_by_method what_methods awesome_print looksee/shortcuts wirble
      pp yaml boson hirb bond interactive_editor).each do |gem|
@@ -145,7 +149,13 @@ begin
   end
 
   # Boson must be enabled before Hirb otherwise you get commands conflicts
-  Boson.start          if defined? Boson
+  if defined? Boson
+    Boson.start({
+      :verbose     => false,
+      :no_defaults => true
+    })
+  end
+
   Hirb.enable          if defined? Hirb
   extend Hirb::Console if defined? Hirb
   Bond.start           if defined? Bond
