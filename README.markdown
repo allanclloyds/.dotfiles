@@ -113,7 +113,7 @@ inside screen. This should work as is with Mac OSX; an additional program may be
 required in \*nix or Windows. Take a look at `~/.boson/commands/clipboard.rb`
 for suggestions.
 
-## Ruby/IRB
+## Ruby/IRB/ripl
 
 There are a bunch of other IRB enhancements in `~/.irbrc`; of particular note
 are the amazing [Boson](http://tagaholic.me/boson/),
@@ -125,6 +125,10 @@ mentioned in the section above which allows you to use Vim or another editor
 from inside IRB, and the
 [awesome_print](https://github.com/michaeldv/awesome_print) gem which gives you
 really pretty printing of Ruby objects.
+
+Things are more or less set up the same for
+[ripl](https://github.com/cldwalker/ripl) (the IRB alternative, also by Gabriel
+Horner).
 
 ## ksh/bash/zsh
 
