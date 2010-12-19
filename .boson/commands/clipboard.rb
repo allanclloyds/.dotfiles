@@ -7,13 +7,18 @@ module Clipboard
     require 'rbconfig'
   end
 
-  def copy(str); clipboard_copy(:string => str); end
-  def paste;     clipboard_paste;                end
+  # Copies text to the clipboard: echo str | copy ; copy [str]
+  def copy(str = nil)
+    clipboard_copy(:string => (!$stdin.tty? ? $stdin.read : str))
+  end
+
+  # Returns the text on the clipboard
+  def paste; clipboard_paste; end
 
   # @option :string, :type => :string, :default => '', :desc => 'Text to copy'
   # @option :bufferfile,      :default => File.join(ENV['HOME'], '.screen-exchange'),
   #         :type => :string, :desc    => 'Bufferfile to use with GNU Screen'
-  # Copies text to the clipboard
+  # @desc   Copies text to the clipboard
   def clipboard_copy(options = {})
     if ENV.include? 'STY'                               # Running under GNU Screen
 
@@ -33,7 +38,7 @@ module Clipboard
 
   # @option :bufferfile,      :default => File.join(ENV['HOME'], '.screen-exchange'),
   #         :type => :string, :desc    => 'Bufferfile to use with GNU Screen'
-  # Returns the text on the clipboard
+  # @desc   Returns the text on the clipboard
   def clipboard_paste(options = {})
     if ENV.include? 'STY'                               # Running under GNU Screen
 
