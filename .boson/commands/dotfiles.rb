@@ -101,12 +101,12 @@ module Dotfiles
 
     config = YAML.load_file(options[:config])
 
-    # Colons in the template name will be converted to slashes for the target.
-    # Thus irssi:config will be installed to [dotfiles]/.irssi/config
+    # Commas in the template name will be converted to slashes for the target.
+    # Thus irssi,config will be installed to [dotfiles]/.irssi/config
     # (the destination directory must already exist).
 
-    File.open(File.join(options[:dotfiles], ".#{options[:file].gsub(':', '/')}"), 'w') do |new_file|
-      puts "Regenerating: .#{options[:file].gsub(':', '/')}"
+    File.open(File.join(options[:dotfiles], ".#{options[:file].gsub(',', '/')}"), 'w') do |new_file|
+      puts "Regenerating: .#{options[:file].gsub(',', '/')}"
       new_file.write ERB.new(File.read(File.join(options[:templates], "#{options[:file]}.erb"))).result(binding)
     end
   end
