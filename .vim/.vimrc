@@ -1,5 +1,5 @@
 " ~/.vimrc: Allan C. Lloyds <acl@acl.im>
-" vim: set et ff=unix ft=vim fdm=marker ts=2 sw=2 sts=2 tw=0: 
+" vim: set et ff=unix ft=vim fdm=marker ts=2 sw=2 sts=2 tw=0:
 
 " Some vim screencasts/resources:
 " http://peepcode.com/products/smash-into-vim-i
@@ -221,7 +221,7 @@ endif
 " http://vim.wikia.com/wiki/Modeline_magic
 function! AppendModeline()
   let save_cursor = getpos('.')
-  let append = ' vim: set et ff=unix ft='.&filetype.' fdm=marker ts=2 sw=2 sts=2 tw=0: '
+  let append = ' vim: set et ff=unix ft='.&filetype.' fdm=marker ts=2 sw=2 sts=2 tw=0:'
   $put =substitute(&commentstring, '%s', append, '')
   call setpos('.', save_cursor)
 endfunction
