@@ -11,6 +11,11 @@ unsetopt beep
 fpath=( ~/.zsh/functions $fpath )
 autoload -U ~/.zsh/functions/*(:t)
 
+# fish style live command coloring
+# http://www.zsh.org/mla/users/2010/msg00692.html
+# https://gist.github.com/586698
+live_command_coloring
+
 # setup completion and other zsh options
 zstyle   :compinstall filename '/home/allan/.zshrc'
 zmodload zsh/complist
