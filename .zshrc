@@ -2,7 +2,8 @@
 # vim: set et ff=unix ft=zsh fdm=marker ts=2 sw=2 sts=2 tw=0: 
 # see ~/.profile for ksh/bash/zsh startup file loading order
 
-limit    core 0
+limit core 0 2>/dev/null
+
 unsetopt flow_control
 unsetopt beep
 
