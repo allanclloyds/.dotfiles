@@ -1,29 +1,5 @@
 # 5l's .dotfiles
 
-These are my dotfiles, finally crafted to my satisfaction. You see, over the
-years they had become like a set of arcane spellbooks which I didn't dare to
-touch. I'd forgotten what half of those settings did or why I added them. I
-wouldn't code like that I mused, and yet here I was with cargo culted
-configuration for my tools.
-
-`cd ~/.vim` was like entering a den of thieves, with plugins and cryptic scripts
-glaring at me from their hiding holes. This is our land they said, and you are
-not welcome here. "But why is my Ruby indentation all screwed up?" I asked.
-"None of your goddamn business" they replied.
-
-Well I decided I'd had quite enough of that; with hard lessons learned from the
-ominously prescient Battlestar Galactica and some time on my hands, I tidied
-everything up, put it all in git and fixed the annoyances I had with
-zsh/screen/vim/irb/etc to get them playing better together. Unlike 'user
-friendly' GUI tools, these programs require love and affection. If you take a
-little time out of your daily workflow to show them some, they will repay that
-effort a thousandfold.
-
-Otherwise, well, you are doomed to spend your working life cursing your tools,
-and we all know what they say about workmen who do that. Or even worse, much
-worse... \*leans closer\* *you might even switch to a mac for the sake of
-convenience*. And thus, heartache turns to tragedy.
-
 ### Symlinks & Control Characters in Github
 
 Github doesn't display symlinks very well; they look like ordinary files
@@ -64,9 +40,10 @@ source for more info.
 
 In all likelihood though, you wont want the whole lot; you can use git sparse
 checkouts to take just the Vim stuff (detailed below) or just pick through and
-take what you find useful. *I've tried to provide attributions on everything
-that's not mine; if you see something not properly attributed, please let me
-know.*
+take what you find useful.
+
+*I've tried to provide attributions on everything that's not mine; if you see
+something not properly attributed, please let me know.*
 
 ## GNU Screen
 
