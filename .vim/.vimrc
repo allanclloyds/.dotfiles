@@ -159,7 +159,7 @@ au BufNewFile,BufRead *.rjs set syn=ruby
 au BufWinLeave *.rb mkview
 au BufWinEnter *.rb silent loadview
 
-" Tweaks from: http://nanabit.net/blog/2007/11/03/vim-cursorline/
+""" Tweaks from: http://nanabit.net/blog/2007/11/03/vim-cursorline/
 
   " Display cursorline only in active window
   augroup cch
@@ -168,7 +168,7 @@ au BufWinEnter *.rb silent loadview
     autocmd WinEnter,BufRead * set cursorline
   augroup END
 
-" Tweaks from: http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
+""" Tweaks from: http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
 
   " Bind control-l to hashrocket
   imap <C-l> <Space>=><Space>
@@ -177,7 +177,7 @@ au BufWinEnter *.rb silent loadview
   imap <C-k> <C-o>b:<Esc>Ea
   nmap <C-k> lbi:<Esc>E
 
-" Tweaks from: https://github.com/airblade/dotvim/blob/master/vimrc
+""" Tweaks from: https://github.com/airblade/dotvim/blob/master/vimrc
 
   " Very magic regexes
   nnoremap / /\v
@@ -189,7 +189,7 @@ au BufWinEnter *.rb silent loadview
   " Visually select the text that was most recently edited/pasted.
   nmap gV `[v`]
 
-" Tweaks from: http://news.ycombinator.com/item?id=2082478
+""" Tweaks from: http://news.ycombinator.com/item?id=2082478
 
   " Repeats the last command for the entire visual selection
   vnoremap . :normal .<CR>
