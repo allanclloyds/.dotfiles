@@ -3,10 +3,13 @@
 ## Attribution
 
 *I've tried to provide attributions on everything that's not mine; if you see
-something not properly attributed, please let me know. Like most dotfile
-collections most of the stuff here has been culled from a variety of sources
-over a long period of time; certainly a lot longer than I've been using Git to
-manage it all.*
+something not properly attributed, please let me know, even if it's just a
+snippet of something. Like most dotfile collections, the stuff here has been
+culled from a variety of sources over a long period of time; certainly a lot
+longer than I've been using Git to manage it all. Just so we're clear, most of
+the scripts and so on have not been written by me, just curated, but are all
+foss/public domain (there's a bunch of stuff from vim.org for example). Any
+scripts by me you find in this repository are MIT licenced.*
 
 ### Symlinks & Control Characters in Github
 
