@@ -65,10 +65,11 @@ autocmd     ColorScheme * highlight NonText ctermbg=black ctermfg=236
 " Set colorscheme after above but before the rest
 colorscheme desert256
 
-" Popupmenu selected line, cursor line highlight
+" Popupmenu selected line, cursor line highlight, completion popup
 highlight   PmenuSel ctermfg=black
 highlight   clear Cursorline
 highlight   CursorLine ctermbg=234  guibg=233
+highlight   Pmenu ctermbg=58 gui=bold
 
 set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
 set formatoptions+=m              " Add multibyte support
