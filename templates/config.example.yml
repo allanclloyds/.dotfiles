@@ -6,3 +6,13 @@ email: you@example.com
 github:
   user: username
   token: x
+
+irc:
+  nickname: you
+  altnickn: you_
+  realname: you
+  username: you
+  net:
+    freenode:
+      server: example.com
+      identify: you yoursecret

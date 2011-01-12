@@ -1,5 +1,13 @@
 # 5l's .dotfiles
 
+## Attribution
+
+*I've tried to provide attributions on everything that's not mine; if you see
+something not properly attributed, please let me know. Like most dotfile
+collections most of the stuff here has been culled from a variety of sources
+over a long period of time; certainly a lot longer than I've been using Git to
+manage it all.*
+
 ### Symlinks & Control Characters in Github
 
 Github doesn't display symlinks very well; they look like ordinary files
@@ -10,14 +18,23 @@ I also noticed that when browsing via Github, you won't see control characters
 like `^[` or `^G`. I've added a note in most places where this applies, but
 keep it in mind when looking at prompts and messages etc.
 
-## Management
+## Installation & Management
+
+First, if Ruby isn't already installed, I suggest you install it via
+[RVM](http://rvm.beginrescueend.com/). Install RVM with the command:
+
+    bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+
+Do not "trust" the `.rvmrc` in `~/.dotfiles` when prompted as it is a user
+`.rvmrc` rather than a project `.rvmrc`. You don't want it executed every time
+you `cd ~/.dotfiles`.
 
 I have a [Boson](http://tagaholic.me/boson/) script for generating some of the
 dotfiles from templates (the ones with private information like `~/.gitconfig`),
 and symlinking the dotfiles to my home directory. It is based on [Ryan
 Bates](http://railscasts.com/)' dotfiles
 [Rakefile](https://github.com/ryanb/dotfiles/blob/master/Rakefile). Assuming you
-don't already have a ~/.boson directory, you can do this to install the
+don't already have a `~/.boson` directory, you can do this to install the
 dotfiles:
 
     gem install boson
@@ -25,6 +42,8 @@ dotfiles:
     git clone https://github.com/5l/.dotfiles.git
     ln -s .dotfiles/.boson .boson
     cd .dotfiles
+    git submodule init
+    git submodule update
     cp templates/config.example.yml templates/config.yml
     boson install_dotfiles
 
@@ -39,11 +58,18 @@ though, just in case!).
 source for more info.
 
 In all likelihood though, you wont want the whole lot; you can use git sparse
-checkouts to take just the Vim stuff (detailed below) or just pick through and
-take what you find useful.
+checkouts to take just the Vim stuff (detailed in the Vim section below) or
+just pick through and take what you find useful.
 
-*I've tried to provide attributions on everything that's not mine; if you see
-something not properly attributed, please let me know.*
+### Other Installation Notes
+
+The plugins and submodules in the `~/.dotfiles/.vim` directory require
+additional configuration before Vim will work without complaining; see the Vim
+section below.
+
+If using Cygwin, note that the `git clone` will fail until you [add the
+appropriate certificate
+authorities](http://support.github.com/discussions/repos/4770-git-clone-from-https-fails-using-cygwin).
 
 ## GNU Screen
 
@@ -119,6 +145,10 @@ stuff in `~/.bash_logout` and `~/.zlogout`. Shared aliases go in
 
 ## Vim
 
+Before running Vim for the first time with this configuration, create a
+`~/.vim.tmp` directory, and note the points below about `snipmate.vim`,
+`Command-T` and `Gundo`.
+
 Most Vim plugins are installed via git
 [submodules/pathogen](http://vimcasts.org/episodes/synchronizing-plugins-with-git-submodules-and-pathogen/).
 If you're not already using [Tim Pope](http://tpo.pe/)'s
@@ -160,6 +190,19 @@ checkouts like so:
 
 Use the same technique to ensure that the snipmate.vim plugin submodule
 doesn't include its own directory of snippets.
+
+    cd ~/.dotfiles/.vim/bundle/snipmate.vim
+    git config core.sparsecheckout true
+    echo '*' > .git/info/sparse-checkout
+    echo !snippets/ >> .git/info/sparse-checkout
+    git read-tree -m -u HEAD
+
+Note that the [Command-T](http://www.vim.org/scripts/script.php?script_id=3025)
+plugin needs to be compiled, and requires a Vim with Ruby support (and you need
+to compile against the same version of Ruby that Vim itself is linked against).
+The [Gundo](http://sjl.bitbucket.org/gundo.vim/) plugin requires a Vim with
+Python support. Likely you will want to compile your own Vim with
+`--with-features=huge --enable-pythoninterp=yes --enable-rubyinterp`.
 
 There are lots of interesting plugins in `~/.vim`, but the most useful I
 find on a daily basis are (as it bears repeating)
