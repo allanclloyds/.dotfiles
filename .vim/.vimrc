@@ -129,6 +129,14 @@ xmap     <C-x> <Plug>SpeedDatingDown
 nmap    d<C-i> <Plug>SpeedDatingNowUTC
 nmap    d<C-x> <Plug>SpeedDatingNowLocal
 
+" Fast buffer switching (,, for alternate buffer, ,. for a menu)
+" This works better than Bufexplorer for me
+map <leader>, :b#<CR>
+map <leader>. :buffers<CR>:buffer<Space>
+
+" Bufexplorer plugin: http://www.vim.org/scripts/script.php?script_id=42
+silent! nmap <unique> <silent> <Leader>b :BufExplorer<CR>
+
 " Syntastic plugin: https://github.com/scrooloose/syntastic
 let g:syntastic_enable_signs=1
 
@@ -141,9 +149,6 @@ silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
 
 " Command-t plugin: https://wincent.com/products/command-t
 silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
-
-" Bufexplorer plugin: http://www.vim.org/scripts/script.php?script_id=42
-silent! nmap <unique> <silent> <Leader>b :BufExplorer<CR>
 
 " Gist.vim plugin: http://www.vim.org/scripts/script.php?script_id=2423
 let g:gist_detect_filetype = 1
