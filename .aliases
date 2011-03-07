@@ -23,3 +23,5 @@ alias bye=exit
 alias p='ps -l'
 alias j=jobs
 alias o='fg %-'
+
+alias screen='screen -U'

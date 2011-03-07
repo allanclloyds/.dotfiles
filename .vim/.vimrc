@@ -23,6 +23,17 @@ else
   "autocmd! bufwritepost .vimrc source %
 endif
 
+" Use UTF-8
+if has("multi_byte")
+  if &termencoding == ""
+    let &termencoding = &encoding
+  endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8 bomb
+  set fileencodings=ucs-bom,utf-8,latin1
+  scriptencoding utf-8
+endif
+
 " Pathogen plugin for managing Vim plugins:
 " http://www.vim.org/scripts/script.php?script_id=2332
 " https://github.com/tpope/vim-pathogen
@@ -48,13 +59,8 @@ set t_AF=[38;5;%dm
 set list
 set lcs=tab:>-                    " Show tabs
 
-if system("uname -o") !=? 'Cygwin'
-  set lcs+=trail:·                " Show trailing spaces
-  set lcs+=eol:¶                  " Show end of lines
-else
-  set lcs+=trail:~                " Don't use UTF in Cygwin
-  set lcs+=eol:$
-endif
+set lcs+=trail:~
+set lcs+=eol:$
 
 " Highlight trailing whitespace or ANY tabs
 highlight   ExtraWhitespace ctermbg=darkgreen ctermfg=black

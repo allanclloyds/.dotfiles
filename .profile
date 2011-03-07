@@ -119,6 +119,9 @@ umask  0027
 stty ixany
 stty ixoff -ixon
 
+export LANG=en_GB.UTF-8
+export LC_ALL=en_GB.UTF-8
+
 # if running zsh:  this file was called from ~/.zprofile
 #                  zsh will now run ~/.zshrc automatically
 # if running ksh:  this file was called directly
