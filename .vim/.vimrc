@@ -164,6 +164,17 @@ silent! nmap <unique> <silent> <Leader>g :Gist -l<CR><C-w>o
 " Scratch.vim plugin: http://www.vim.org/scripts/script.php?script_id=664
 silent! nmap <unique> <silent> <Leader>s :Scratch<CR><C-w>o
 
+" Unimpared.vim plugin: http://github.com/tpope/vim-unimpaired
+" Text bubbling: http://vimcasts.org/episodes/bubbling-text/
+
+  " Bubble single lines
+  nmap <Up> [e
+  nmap <Down> ]e
+
+  " Bubble multiple lines
+  vmap <Up> [egv
+  vmap <Down> ]egv
+
 " Ruby/Coding stuff
 au BufNewFile,BufRead *.rhtml set syn=eruby
 au BufNewFile,BufRead *.rjs set syn=ruby
