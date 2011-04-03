@@ -25,3 +25,4 @@ alias j=jobs
 alias o='fg %-'
 
 alias screen='screen -U'
+alias bungle='bundle'
