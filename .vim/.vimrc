@@ -155,6 +155,7 @@ silent! nmap <unique> <silent> <Leader>u :GundoToggle<CR>
 
 " Command-t plugin: https://wincent.com/products/command-t
 silent! nmap <unique> <silent> <Leader>o :CommandT<CR>
+let g:CommandTMaxHeight = 25
 
 " Gist.vim plugin: http://www.vim.org/scripts/script.php?script_id=2423
 let g:gist_detect_filetype = 1
