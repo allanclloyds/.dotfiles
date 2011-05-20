@@ -25,6 +25,7 @@ bell_msg      'Bell in %n'  # Github users: it's actually '^GBell in %n'
 backtick      1 0 0 whoami    # store results of `whoami` in %1`
 
 bind + command -c select10    # Select high window numbers with C-a+0..9
+                              # (that's a literal +)
 
 bind -c select10 0 select 10
 bind -c select10 1 select 11
