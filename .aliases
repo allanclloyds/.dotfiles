@@ -27,6 +27,7 @@ alias bye=exit
 alias p='ps -l'
 alias j=jobs
 alias o='fg %-'
+alias rm='rm -I'
 
 alias screen='screen -U'
 alias bungle='bundle'
