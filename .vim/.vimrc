@@ -17,7 +17,7 @@ let mapleader = ","
 
 " Reload .vimrc on change
 " http://vim.wikia.com/wiki/Change_vimrc_with_auto_reload
-if has ('win')
+if has('win')
   "autocmd! bufwritepost _vimrc source %
 else
   "autocmd! bufwritepost .vimrc source %
