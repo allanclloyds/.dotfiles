@@ -23,6 +23,11 @@ else
   "autocmd! bufwritepost .vimrc source %
 endif
 
+" Create ~/.vim.tmp directory if it doesn't already exist
+if exists("*mkdir") && ! filereadable(expand("~/.vim.tmp")) && ! isdirectory(expand("~/.vim.tmp"))
+  call mkdir(expand("~/.vim.tmp"), "", 0700)
+end
+
 " Use UTF-8
 if has("multi_byte")
   if &termencoding == ""
