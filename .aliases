@@ -16,6 +16,10 @@ else
   alias can-has="apt-get"
 fi
 
+if [ -x "${HOME}/bin/vim" ]; then
+  alias vi=vim
+fi
+
 alias quit=exit
 alias cls=clear
 alias logout=exit
