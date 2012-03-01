@@ -109,6 +109,14 @@ if [ `uname -s` = "OpenBSD" ]; then
   export PKG_PATH
 fi
 
+if [ `uname -s` = "NetBSD" ]; then
+  PKG_PATH=ftp://ftp.netbsd.org/pub/pkgsrc/packages/NetBSD
+  PKG_PATH=${PKG_PATH}/`arch -s`/`uname -r`/All
+  export PKG_PATH
+
+  PATH="/usr/pkg/sbin:$PATH"
+fi
+
 export ENV=$HOME/.kshrc
 export BASH_ENV=$HOME/.bash_env
 
