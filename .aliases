@@ -26,3 +26,5 @@ alias o='fg %-'
 
 alias screen='screen -U'
 alias bungle='bundle'
+
+alias bx='bundle exec'
