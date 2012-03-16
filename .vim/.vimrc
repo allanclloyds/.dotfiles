@@ -24,8 +24,10 @@ else
 endif
 
 " Create ~/.vim.tmp directory if it doesn't already exist
-if exists("*mkdir") && ! filereadable(expand("~/.vim.tmp")) && ! isdirectory(expand("~/.vim.tmp"))
-  call mkdir(expand("~/.vim.tmp"), "", 0700)
+if exists("*mkdir")
+  if !filereadable(expand("~/.vim.tmp")) && !isdirectory(expand("~/.vim.tmp"))
+    call mkdir(expand("~/.vim.tmp"), "", 0700)
+  end
 end
 
 " Use UTF-8
@@ -57,43 +59,90 @@ filetype on
 filetype indent on
 filetype plugin on
 
-set t_Co=256                      " Enable 256 colors
+" Enable 256 colours
+set t_Co=256
 set t_AB=[48;5;%dm
 set t_AF=[38;5;%dm
 
 set list
-set lcs=tab:>-                    " Show tabs
-
+set lcs=precedes:<,extends:>
+set lcs+=tab:>-
 set lcs+=trail:~
 set lcs+=eol:$
+set lcs+=nbsp:%
 
-" Highlight trailing whitespace or ANY tabs
-highlight   ExtraWhitespace ctermbg=darkgreen ctermfg=black
-autocmd     ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen ctermfg=black
-match       ExtraWhitespace /\t\|\>\+\s\+$/
-autocmd     ColorScheme * highlight NonText ctermbg=black ctermfg=236
+" Order of the following lines is significant:
+"
+"   Using autocmd before the first colorscheme command will ensure the
+"   highlight group will not be cleared by future colorscheme commands.
+"
+"   However, the group wont be created until the first colorscheme is loaded,
+"   so the match/2match lines need to come after.
 
-" Set colorscheme after above but before the rest
-colorscheme desert256
+au ColorScheme * call ColorSchemeOverRides()
 
-" Popupmenu selected line, cursor line highlight, completion popup
-highlight   PmenuSel ctermfg=black
-highlight   clear Cursorline
-highlight   CursorLine ctermbg=234  guibg=233
-highlight   Pmenu ctermbg=58 gui=bold
+function ColorSchemeOverRides()
 
-set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth, backspace (over everything), textwidth
+  hi Search          ctermfg=NONE  ctermbg=NONE cterm=reverse
+  hi IncSearch       ctermfg=NONE  ctermbg=NONE cterm=reverse
+  hi Todo            ctermfg=196   ctermbg=NONE cterm=underline
+  hi NonText         ctermfg=238   ctermbg=NONE cterm=NONE
+  hi ExtraWhitespace ctermfg=black ctermbg=33   cterm=NONE
+  hi OverLength      ctermfg=NONE  ctermbg=236  cterm=NONE
+
+  hi clear Cursorline
+  hi clear CursorColumn
+
+  hi CursorLine      ctermbg=232 guibg=233
+  hi CursorColumn    ctermbg=232 guibg=233
+
+  if exists('+colorcolumn')
+    set colorcolumn=79
+    hi  ColorColumn    ctermbg=232  guibg=233
+  endif
+
+  hi PmenuSel        ctermfg=black
+  hi Pmenu           ctermbg=58 gui=bold
+
+endfunction
+
+colorscheme  desert256
+
+au FileType *    call MatchOn()
+au FileType help call MatchNo() | set number
+
+nnoremap <silent> <Leader>m :call MatchOn()<CR>
+nnoremap <silent> <Leader>\ :call MatchNo()<CR>
+
+function MatchOn()
+  match  ExtraWhitespace /\v(\t|\s+$)/
+  2match OverLength      /\v(%>79v.+)/
+endfunction
+
+function MatchNo()
+  match none | 2match none
+endfunction
+
+set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth
+                                  " backspace (over everything), textwidth
+set nowrap                        " Do not wrap text
 set formatoptions+=m              " Add multibyte support
 set backupdir=~/.vim.tmp//        " Double slash makes temp file unique
 set directory=~/.vim.tmp//
-set viminfo^=!,%                  " See: http://vimdoc.sourceforge.net/htmldoc/options.html#'viminfo'
-set hidden autoread autowrite     " Allow hidden modified buffs, save when changing buffs, reload changed file
+set viminfo^=!,%                  " See :help viminfo
+set hidden                        " Allow hidden modified buffers
+set autoread                      " Reload changed file
+set autowrite                     " Save when changing buffers
 set novisualbell noerrorbells     " No bells, visual or otherwise
 set showmatch                     " Show matching brackets
-set wrapscan incsearch hlsearch   " Wrap search to start of file, search as you type, highlight searches
-set number ruler showmode showcmd " Show line numbers, ruler, current mode, current command
-set so=7 wmh=0                    " Keep 7 lines visible when scrolling, allow window to be 0 lines high
-set nostartofline                 " Do not jump to first character with page commands
+set wrapscan                      " Wrap search to start of file
+set incsearch                     " Search as you type
+set hlsearch                      " Highlight searches
+set number ruler                  " Show line numbers, ruler
+set showmode showcmd              " Show current mode, current command
+set so=7                          " Keep 7 lines visible when scrolling
+set wmh=0                         " Allow window to be 0 lines high
+set startofline                   " Jump to first character when paging
 set wildmenu                      " Enhanced command line completion
 set wildmode=list:longest         " Complete files like a shell
 set tags=./tags;                  " Ctags for jumping around source files
@@ -117,18 +166,21 @@ endfunction
 
 set laststatus=2                  " Always show status line
 
-set statusline=%-20.(%-5.L\\%5.l,%3.c,%3.v\ %)\|
-set statusline+=\ l:%p%%\ w:%P\ o:0x%O\ b:0x%B\ %=
-set statusline+=\ %f\ %r%w%{VarExists('b:gzflag','\ [gz]')}\[%{&ff}\]%y%{SyntasticStatuslineFlag()}%m
-set statusline+=\ %<%{strftime(\"%Y-%m-%d\ %a\ %H:%M:%S\",getftime(expand(\"%:p\")))}
+set stl=%-20.(%-5.L\\%5.l,%3.c,%3.v\ %)\|
+set stl+=\ l:%p%%\ w:%P\ o:0x%O\ b:0x%B\ %=
+set stl+=\ %f\ %r%w%{VarExists('b:gzflag','\ [gz]')}
+set stl+=\[%{&ff}\]%y%{SyntasticStatuslineFlag()}%m
+set stl+=\ %<%{strftime(\"%Y-%m-%d\ %a\ %H:%M:%S\",getftime(expand(\"%:p\")))}
 
 " Speeddating plugin:
 " http://www.vim.org/scripts/script.php?script_id=2120
 " https://github.com/tpope/vim-speeddating
 "
-" Some other mappings here as well: On my netbook <Esc> is tiny, and right next to <F1>
-" <C-a> is special in both Windows + GNU Screen, so don't use that for incrementing and
-" <C-i> and <Tab> share the same mapping, so this will allow <Tab> to increment.
+" Some other mappings here as well: On my netbook <Esc> is tiny, and right next
+" to <F1>. <C-a> is special in both Windows + GNU Screen, so don't use that for
+" incrementing, and <C-i> and <Tab> share the same mapping, so this will allow
+" <Tab> to increment.
+
 map      <F1>  <Esc>
 imap     <F1>  <Esc>
 noremap  <F8>  <C-o>
@@ -194,7 +246,7 @@ au BufWinEnter *.rb silent loadview
   augroup cch
     autocmd! cch
     autocmd WinLeave * set nocursorline
-    autocmd WinEnter,BufRead * set cursorline
+    autocmd WinEnter,BufEnter,BufRead,BufWinEnter,BufNewFile * set cursorline
   augroup END
 
 """ Tweaks from: http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
