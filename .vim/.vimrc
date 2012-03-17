@@ -13,6 +13,7 @@
 " http://www.oualline.com/vim-cook.html
 
 set nocompatible
+nnoremap ,; ,
 let mapleader = ","
 
 " Reload .vimrc on change
@@ -98,7 +99,7 @@ function ColorSchemeOverRides()
 
   if exists('+colorcolumn')
     set colorcolumn=79
-    hi  ColorColumn    ctermbg=232  guibg=233
+    hi  ColorColumn  ctermbg=232  guibg=233
   endif
 
   hi PmenuSel        ctermfg=black
