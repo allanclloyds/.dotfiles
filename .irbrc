@@ -109,26 +109,37 @@ begin
 
     case ENV['TERM']
     when /screen/
-      term_title = "\ek#{term_title}\e\\"
+      term_title = "\001\ek#{term_title}\e\\\002"
     when /(xterm|rxvt)/
-      term_title = "\e]0;#{term_title}\a"
+      term_title = "\001\e]0;#{term_title}\a\002"
     else
       term_title = ''
     end
 
-    # Less verbosity, more color in our prompt. These escape sequences might mess
-    # things up for some versions of IRB/readline, but it doesn't affect me any,
-    # especially with auto indentation disabled (which is far too broken for my
-    # taste anyway). See ~/.zshrc for ANSI color code table.
+    # Less verbosity, more colour in our prompt. \001 + \002, prevent readline
+    # from counting escape sequences. Later versions of Ruby/readline
+    # theoretically wrap with these automatically. See ~/.zshrc for ANSI colour
+    # code table.
+
+    IRB.conf[:PROMPT][:CUSTOM_COLOR] = {
+      :PROMPT_S => "  ",
+      :PROMPT_I => "#{term_title}\n" + \
+                   "\001\e[0;1;31m\002> \001\e[0m\002",
+      :PROMPT_N => "\001\e[0;1;31m\002+ \001\e[0m\002",
+      :PROMPT_C => "\001\e[0;1;31m\002~ \001\e[0m\002",
+      :RETURN   => "\001\e[0;0;37m\002= \001\e[0m\002%s \n"
+    }
 
     IRB.conf[:PROMPT][:CUSTOM] = {
-      :PROMPT_N => "\e[0;1;31m+ \e[0m",
-      :PROMPT_I => "\n#{term_title}\e[0;1;31m> \e[0m",
       :PROMPT_S => "  ",
-      :PROMPT_C => "\e[0;1;31m~ \e[0m",
-      :RETURN   => "\e[0;0;37m= \e[0m%s \n"
+      :PROMPT_I => "#{term_title}\n" + \
+                   "> ",
+      :PROMPT_N => "+ ",
+      :PROMPT_C => "~ ",
+      :RETURN   => "= %s \n"
     }
-    IRB.conf[:PROMPT_MODE] = :CUSTOM
+
+    IRB.conf[:PROMPT_MODE] = :CUSTOM_COLOR
   end
 
   %w(rubygems map_by_method what_methods awesome_print looksee/shortcuts wirble
