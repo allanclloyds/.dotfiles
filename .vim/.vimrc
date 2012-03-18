@@ -23,9 +23,9 @@ end
 " http://vim.wikia.com/wiki/Change_vimrc_with_auto_reload
 
 if has('win32')
-  "autocmd! bufwritepost _vimrc source %
+  autocmd! bufwritepost _vimrc source %
 else
-  "autocmd! bufwritepost .vimrc source %
+  autocmd! bufwritepost .vimrc source %
 endif
 
 " Use UTF-8
@@ -56,7 +56,6 @@ if !has('win32')
   set directory=~/.vim.tmp//
 end
 
-
 " Pathogen plugin for managing Vim plugins:
 " http://www.vim.org/scripts/script.php?script_id=2332
 " https://github.com/tpope/vim-pathogen
@@ -71,25 +70,16 @@ elseif isdirectory(expand("~/vimfiles/doc"))
   helptags ~/vimfiles/doc
 endif
 
-silent! syntax on
-silent! filetype on
-silent! filetype indent on
-silent! filetype plugin on
-
-" Enable 256 colours
-set t_Co=256
-set t_AB=[48;5;%dm
-set t_AF=[38;5;%dm
-
 " Order of the following lines is significant:
 "
 "   Using autocmd before the first colorscheme command will ensure the
 "   highlight group will not be cleared by future colorscheme commands.
 
 if has('autocmd') && exists(':function')
-  au ColorScheme * call ColorSchemeOverRides()
 
-  function ColorSchemeOverRides()
+  au! ColorScheme * call ColorSchemeOverRides()
+
+  function! ColorSchemeOverRides()
 
     if has('gui_running')
       hi Search          guifg=NONE    guibg=NONE   gui=reverse
@@ -121,8 +111,9 @@ if has('autocmd') && exists(':function')
   endfunction
 
   if exists('*matchadd') && exists(':let')
-    au FileType *    call MatchOn()
-    au FileType help call MatchNo() | set number
+
+    au! FileType *    call MatchOn()
+    au! FileType help call MatchNo() | set number
 
     " Show matches: Extra Whitespace & Over Length, Current Line, Current Col
 
@@ -138,29 +129,29 @@ if has('autocmd') && exists(':function')
     nnoremap <silent> <Leader>\\ :call MatchRm('b:m3')<CR>:call MatchRm('b:m4')<CR>
     nnoremap \ :noh<CR>
 
-    fu MatchOn()
+    fu! MatchOn()
       if !exists('b:m1') && !exists('b:m2')
         let b:m1 = matchadd("ExtraWhitespace", '\v(\t|\s+$)')
         let b:m2 = matchadd("OverLength",      '\v(%>79v.+)')
       endi
     endf
 
-    fu MatchOnL()
+    fu! MatchOnL()
       call MatchRm('b:m3')
       let b:m3 = matchadd("Search", '\%'.line('.').'l')
       mark l
     endf
 
-    fu MatchOnC()
+    fu! MatchOnC()
       call MatchRm('b:m4')
       let b:m4 = matchadd("Search", '\%'.virtcol('.').'v')
     endf
 
-    fu MatchNo()
+    fu! MatchNo()
       call MatchRm('b:m1') | call MatchRm('b:m2')
     endf
 
-    fu MatchRm(matchvar)
+    fu! MatchRm(matchvar)
       if exists(a:matchvar)
         exe "call matchdelete(".a:matchvar.") | unlet ".a:matchvar
       endi
@@ -168,7 +159,19 @@ if has('autocmd') && exists(':function')
   endi
 endi
 
-colorscheme desert256
+if !exists('g:colors_name')
+  colorscheme desert256
+
+  silent! syntax on
+  silent! filetype on
+  silent! filetype indent on
+  silent! filetype plugin on
+
+  " Enable 256 colours
+  set t_Co=256
+  set t_AB=[48;5;%dm
+  set t_AF=[38;5;%dm
+endi
 
 set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth
                                   " backspace (over everything), textwidth
@@ -218,7 +221,7 @@ if $TERM == 'screen-256color-bce'
 endif
 
 if exists(':function')
-  function VarExists(var, val)
+  function! VarExists(var, val)
     if exists(a:var)
       return a:val
     else
@@ -296,28 +299,30 @@ silent! nmap <unique> <silent> <Leader>s :Scratch<CR><C-w>o
   vmap <Down> ]egv
 
 if has('autocmd')
-  au BufNewFile,BufRead *.gz let b:gzflag = 1
+  aug vimrc_autocmd
+    au!
 
-  " Ruby/Coding stuff
-  au BufNewFile,BufRead *.rhtml set syn=eruby
-  au BufNewFile,BufRead *.rjs set syn=ruby
+    au BufNewFile,BufRead *.gz let b:gzflag = 1
 
-  " Save position and folds in .rb files
-  au BufWinLeave *.rb mkview
-  au BufWinEnter *.rb silent loadview
+    " Ruby/Coding stuff
+    au BufNewFile,BufRead *.rhtml set syn=eruby
+    au BufNewFile,BufRead *.rjs set syn=ruby
+
+    " Save position and folds in .rb files
+    au BufWinLeave *.rb mkview
+    au BufWinEnter *.rb silent loadview
 
   " Display cursorline only in active window
-  augroup cch
-    autocmd! cch
-    autocmd WinLeave * set nocursorline
-    autocmd WinEnter,BufEnter,BufRead,BufWinEnter,BufNewFile * set cursorline
-  augroup END
+    au WinLeave * set nocursorline
+    au WinEnter,BufEnter,BufRead,BufWinEnter,BufNewFile * set cursorline
 
-  " Places the cursor in the last place that it was in the last file
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+    " Places the cursor in the last place that it was in the last file
+    au BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+
+  aug END
 end
 
 """ Tweaks from: http://jetpackweb.com/blog/2010/02/15/vim-tips-for-ruby/
