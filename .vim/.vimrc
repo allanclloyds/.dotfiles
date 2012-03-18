@@ -23,9 +23,9 @@ end
 " http://vim.wikia.com/wiki/Change_vimrc_with_auto_reload
 
 if has('win32')
-  autocmd! bufwritepost _vimrc source %
+  autocmd! bufwritepost _vimrc source $MYVIMRC
 else
-  autocmd! bufwritepost .vimrc source %
+  autocmd! bufwritepost .vimrc source $MYVIMRC
 endif
 
 " Use UTF-8
