@@ -85,9 +85,6 @@ set t_AF=[38;5;%dm
 "
 "   Using autocmd before the first colorscheme command will ensure the
 "   highlight group will not be cleared by future colorscheme commands.
-"
-"   However, the group wont be created until the first colorscheme is loaded,
-"   so the match/2match lines need to come after.
 
 if has('autocmd') && exists(':function')
   au ColorScheme * call ColorSchemeOverRides()
@@ -122,8 +119,6 @@ if has('autocmd') && exists(':function')
     hi Pmenu             ctermbg=58    gui=bold
 
   endfunction
-
-  colorscheme  desert256
 
   if exists('*matchadd') && exists(':let')
     au FileType *    call MatchOn()
@@ -172,6 +167,8 @@ if has('autocmd') && exists(':function')
     endf
   endi
 endi
+
+colorscheme desert256
 
 set et ts=2 sw=2 sts=2 bs=2 tw=0  " Expandtab, tabstop, shiftwidth
                                   " backspace (over everything), textwidth
