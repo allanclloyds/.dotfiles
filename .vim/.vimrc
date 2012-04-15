@@ -13,6 +13,7 @@
 " http://www.oualline.com/vim-cook.html
 
 set nocompatible
+inoremap jj <Esc>
 
 if exists(':let')
   nnoremap ,; ,
@@ -82,6 +83,7 @@ if has('autocmd') && exists(':function')
   function! ColorSchemeOverRides()
 
     if has('gui_running')
+      hi MatchParen      guifg=009     guibg=233    gui=NONE
       hi Search          guifg=NONE    guibg=NONE   gui=reverse
       hi IncSearch       guifg=NONE    guibg=NONE   gui=reverse
       hi Todo            guifg=196     guibg=NONE   gui=underline
@@ -89,6 +91,7 @@ if has('autocmd') && exists(':function')
       hi ExtraWhitespace guifg=black   guibg=33     gui=NONE
       hi OverLength      guifg=NONE    guibg=236    gui=NONE
     else
+      hi MatchParen      ctermfg=009   ctermbg=233  cterm=NONE
       hi Search          ctermfg=NONE  ctermbg=NONE cterm=reverse
       hi IncSearch       ctermfg=NONE  ctermbg=NONE cterm=reverse
       hi Todo            ctermfg=196   ctermbg=NONE cterm=underline
@@ -97,13 +100,21 @@ if has('autocmd') && exists(':function')
       hi OverLength      ctermfg=NONE  ctermbg=236  cterm=NONE
     end
 
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_auto_colors = 0
+    let g:indent_guides_guide_size  = 1
+    let g:indent_guides_start_level = 2
+
+    hi IndentGuidesOdd   ctermbg=233
+    hi IndentGuidesEven  ctermbg=233
+
     hi clear CursorLine
     hi clear CursorColumn
     hi clear ColorColumn
 
-    hi CursorLine        ctermbg=232   guibg=233
-    hi CursorColumn      ctermbg=232   guibg=233
-    hi ColorColumn       ctermbg=232   guibg=233
+    hi CursorLine        ctermbg=233   guibg=233
+    hi CursorColumn      ctermbg=233   guibg=233
+    hi ColorColumn       ctermbg=233   guibg=233
 
     hi PmenuSel          ctermfg=black
     hi Pmenu             ctermbg=58    gui=bold
@@ -118,12 +129,14 @@ if has('autocmd') && exists(':function')
     " Show matches: Extra Whitespace & Over Length, Current Line, Current Col
 
     nnoremap <silent> <Leader>mm :call MatchOn()<CR>
+    nnoremap <silent> <Leader>mi :IndentGuidesEnable<CR>
     nnoremap <silent> <Leader>ml :call MatchOnL()<CR>
     nnoremap <silent> <Leader>mc :call MatchOnC()<CR>
 
     " Clear matches: Extra Whitespace & Over Length, Current Line & Col, Search
 
     nnoremap <silent> <Leader>\m :call MatchNo()<CR>
+    nnoremap <silent> <Leader>\i :IndentGuidesDisable<CR>
     nnoremap <silent> <Leader>\l :call MatchRm('b:m3')<CR>
     nnoremap <silent> <Leader>\c :call MatchRm('b:m4')<CR>
     nnoremap <silent> <Leader>\\ :call MatchRm('b:m3')<CR>:call MatchRm('b:m4')<CR>
@@ -203,7 +216,7 @@ end
 
 if exists('+colorcolumn')
   set colorcolumn=79
-endif
+endi
 
 set list
 set lcs=precedes:<,extends:>
@@ -312,7 +325,7 @@ if has('autocmd')
     au BufWinLeave *.rb mkview
     au BufWinEnter *.rb silent loadview
 
-  " Display cursorline only in active window
+    " Display cursorline only in active window
     au WinLeave * set nocursorline
     au WinEnter,BufEnter,BufRead,BufWinEnter,BufNewFile * set cursorline
 
@@ -321,7 +334,6 @@ if has('autocmd')
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
       \ endif
-
   aug END
 end
 
